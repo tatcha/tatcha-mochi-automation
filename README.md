@@ -1,1 +1,2 @@
-# tatcha-mochi-automation
+# xlt-tatcha
+XLT scripts of Tatcha
