@@ -16,6 +16,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.tatcha.jscripts.dao.TestCase;
 import com.tatcha.jscripts.helper.TatchaTestHelper;
 
+/**
+ * Verify Order History page
+ * 
+ * @author reshma
+ *
+ */
 public class OrderHistory {
 
     
