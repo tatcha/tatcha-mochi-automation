@@ -19,6 +19,10 @@ import com.tatcha.jscripts.dao.TestCase;
 import com.tatcha.jscripts.dao.User;
 import com.tatcha.jscripts.helper.TatchaTestHelper;
 
+/**
+ * Validate Profile settings of My account
+ * 
+ */
 public class ProfileSettings {
     
     private TatchaTestHelper testHelper = new TatchaTestHelper();
