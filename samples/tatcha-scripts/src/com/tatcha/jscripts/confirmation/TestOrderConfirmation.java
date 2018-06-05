@@ -7,10 +7,7 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -43,11 +40,11 @@ public class TestOrderConfirmation {
         testCase = new TestCase("TC-19.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
         
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
-        Actions actions = new Actions(driver);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy_HH:mm:ss");
         String timeStamp = sdf.format(Calendar.getInstance().getTime());
-
+/*
         try {
+            Actions actions = new Actions(driver);
             wait.until(ExpectedConditions
                     .visibilityOfElementLocated(By.xpath(locator.getProperty("confirmOrder.modal.title").toString())));
             wait.until(ExpectedConditions.elementToBeClickable(By.xpath(locator.getProperty("confirmOrder.modal.close.button").toString())));
@@ -65,7 +62,7 @@ public class TestOrderConfirmation {
         } catch (TimeoutException te) {
             logger.info("Modalbox is NOT present");
         }
-        
+        */
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(locator.getProperty("confirmOrder.title").toString())));
         getTestHelper().logAssertion(getClass().getSimpleName(), "THANK YOU FOR YOUR ORDER",
                 driver.findElement(By.xpath(locator.getProperty("confirmOrder.title").toString())).getText());
