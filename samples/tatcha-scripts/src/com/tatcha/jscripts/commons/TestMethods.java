@@ -322,6 +322,9 @@ public class TestMethods {
 					BASE_URL.append(prop.get("product.redlip").toString());
 				else if (PRODUCT.equalsIgnoreCase("DPCLEANSE"))
 					BASE_URL.append(prop.get("product.dpcleanse").toString());
+				else if (PRODUCT.equalsIgnoreCase("INDIGO"))
+					BASE_URL.append(prop.get("product.indigo").toString());
+				
 				else
 					BASE_URL.append(prop.get("product.watercream").toString());
 
