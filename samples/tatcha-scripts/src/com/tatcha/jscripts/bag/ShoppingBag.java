@@ -18,6 +18,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.tatcha.jscripts.dao.TestCase;
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.dao.Sample;
 import com.tatcha.jscripts.dao.User;
 import com.tatcha.jscripts.helper.TatchaTestHelper;
@@ -35,12 +36,14 @@ public class ShoppingBag {
     private static final String COUPON_CODE = "TATCHATEST";
     private static final int NO_OF_SAMPLES = 3;
 
-    public void verifyShoppingBag(WebDriver driver, Properties prop, Properties locator, User user,
+    public void verifyShoppingBag(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             Map<String, Boolean> map, List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN verifyShoppingBag");
-        String FUNCTIONALITY = "Verify Shopping Bag page";
-        testCase = new TestCase("TC-19.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        final String FUN_ID = "FUN_VSB";      
+//        String FUNCTIONALITY = "Verify Shopping Bag page";
+//        testCase = new TestCase("TC-19.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
 
         // Assert title
         WebElement titleElement = driver.findElement(By.xpath(locator.getProperty("bag.title").toString()));
@@ -48,33 +51,33 @@ public class ShoppingBag {
 
         // Verify Samples
         if (map.containsKey("verifySamples") && map.get("verifySamples")) {
-            verifySamples(driver, prop, locator, user, tcList, map);
+            verifySamples(FLOW_ID, driver, prop, locator, user, tcList, map);
             logger.debug("Samples done");
         }
 
         // Verify Product
         if (map.containsKey("verifyProducts") && map.get("verifyProducts")) {
-            verifyProducts(driver, prop, locator, user, tcList, map);
+            verifyProducts(FLOW_ID, driver, prop, locator, user, tcList, map);
             logger.debug("Products done");
         }
 
         // Verify gift wrap
         if (map.containsKey("verifyGiftWrap") && map.get("verifyGiftWrap")) {
-            verifyGiftWrap(driver, prop, locator, user, tcList, map);
+            verifyGiftWrap(FLOW_ID, driver, prop, locator, user, tcList, map);
             logger.debug("Giftwrap done");
         }
 
         // Verify summary
-        verifySummary(driver, prop, locator, user, tcList);
+        verifySummary(FLOW_ID, driver, prop, locator, user, tcList);
         logger.debug("Summary done");
 
         // Verify Promotion
         if (map.containsKey("verifyPromo") && map.get("verifyPromo")) {
 
             if (map.containsKey("applyPromo") && map.get("applyPromo")) {
-                verifyPromoSummary(driver, prop, locator, user, tcList, map);
+                verifyPromoSummary(FLOW_ID, driver, prop, locator, user, tcList, map);
             } else {
-                verifyPromotion(driver, prop, locator, user, tcList, map);
+                verifyPromotion(FLOW_ID, driver, prop, locator, user, tcList, map);
             }
         }
         logger.info("END verifyShoppingBag");
@@ -88,14 +91,15 @@ public class ShoppingBag {
      * @param locator
      * @throws Exception
      */
-    public void verifySamples(WebDriver driver, Properties prop, Properties locator, User user, List<TestCase> tcList,
+    public void verifySamples(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user, List<TestCase> tcList,
             Map<String, Boolean> map) throws Exception {
 
         logger.info("BEGIN verifySamples");
-
-        String FUNCTIONALITY = "Verify Samples section of shopping bag";
-        testCase = new TestCase("TC-19.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_VSA";
+//        String FUNCTIONALITY = "Verify Samples section of shopping bag";
+//        testCase = new TestCase("TC-19.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
         Actions actions = new Actions(driver);
 
@@ -182,7 +186,7 @@ public class ShoppingBag {
         }
 
         user.setSamples(samplesList);
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END verifySamples");
     }
@@ -196,13 +200,15 @@ public class ShoppingBag {
      * @param user
      * @throws Exception
      */
-    private void verifyProducts(WebDriver driver, Properties prop, Properties locator, User user, List<TestCase> tcList,
+    private void verifyProducts(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user, List<TestCase> tcList,
             Map<String, Boolean> map) throws Exception {
 
         logger.info("BEGIN verifyProducts");
-        String FUNCTIONALITY = "Verify Products in shopping bag";
-        testCase = new TestCase("TC-19.3", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_VPD";
+//        String FUNCTIONALITY = "Verify Products in shopping bag";
+//        testCase = new TestCase("TC-19.3", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 5);
         String productLocator = locator.getProperty("product.locator").toString();
         if (null != user.getProducts() && !user.getProducts().isEmpty()) {
@@ -351,13 +357,13 @@ public class ShoppingBag {
                                 .refreshed(ExpectedConditions.stalenessOf(autoDeliveryCheckboxElement)));
                     }
                     // wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(locator.getProperty("autoDelivery.frequency").toString()+(index-i)+"]")));
-                    testCase.setStatus("PASS");
+                    testCase.setStatus(TcConstants.PASS);
                     tcList.add(testCase);
                     logger.info("END verifyProducts");
 
                 } catch (NoSuchElementException exe) {
                     logger.info("Auto-Delivery not available for : " + productName);
-                    testCase.setStatus("PASS");
+                    testCase.setStatus(TcConstants.PASS);
                     tcList.add(testCase);
                 } catch (TimeoutException exe) {
 
@@ -376,13 +382,15 @@ public class ShoppingBag {
      * @param locator
      * @throws Exception
      */
-    public void verifyGiftWrap(WebDriver driver, Properties prop, Properties locator, User user, List<TestCase> tcList,
+    public void verifyGiftWrap(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user, List<TestCase> tcList,
             Map<String, Boolean> map) throws Exception {
 
         logger.info("BEGIN verifyGiftWrap");
-        String FUNCTIONALITY = "Verify Gift Wrap section of shopping bag";
-        testCase = new TestCase("TC-19.4", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_VGW";
+//        String FUNCTIONALITY = "Verify Gift Wrap section of shopping bag";
+//        testCase = new TestCase("TC-19.4", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        		
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
         WebDriverWait wait5 = (WebDriverWait) new WebDriverWait(driver, 10);
         Actions actions = new Actions(driver);
@@ -526,7 +534,7 @@ public class ShoppingBag {
         }
         user.setIsGiftWrap(isGiftWrapAdded);
         wait.until(ExpectedConditions.refreshed(ExpectedConditions.stalenessOf(checkboxElement)));
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END verifyGiftWrap");
     }
@@ -540,13 +548,15 @@ public class ShoppingBag {
      * @param user
      * @throws Exception
      */
-    public void verifySummary(WebDriver driver, Properties prop, Properties locator, User user, List<TestCase> tcList)
+    public void verifySummary(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user, List<TestCase> tcList)
             throws Exception {
 
         logger.info("BEGIN verifySummary");
-        String FUNCTIONALITY = "Verify Summary in shopping bag";
-        testCase = new TestCase("TC-19.5", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_VSM";
+//        String FUNCTIONALITY = "Verify Summary in shopping bag";
+//        testCase = new TestCase("TC-19.5", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        		
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath(locator.getProperty("summary.title").toString())));
@@ -589,7 +599,7 @@ public class ShoppingBag {
                                     + getTestHelper().getPrice(shipAmtString)
                                     + getTestHelper().getPrice(taxAmtString));
         }
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END verifySummary");
     }
@@ -605,13 +615,15 @@ public class ShoppingBag {
      * @param map
      * @throws Exception
      */
-    public void verifyPromoSummary(WebDriver driver, Properties prop, Properties locator, User user,
+    public void verifyPromoSummary(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             List<TestCase> tcList, Map<String, Boolean> map) throws Exception {
 
         logger.info("BEGIN verifyPromoSummary");
-        String FUNCTIONALITY = "Verify Summary in shopping bag when promotion is applied";
-        testCase = new TestCase("TC-19.6", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_VPSM";
+//        String FUNCTIONALITY = "Verify Summary in shopping bag when promotion is applied";
+//        testCase = new TestCase("TC-19.6", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID); 
+        		
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath(locator.getProperty("summary.title").toString())));
@@ -630,7 +642,7 @@ public class ShoppingBag {
                         .findElement(By.xpath(locator.getProperty("summary.item.count").toString())).getText());
             }
 
-            verifyPromotion(driver, prop, locator, user, tcList, map);
+            verifyPromotion(FLOW_ID, driver, prop, locator, user, tcList, map);
 
             getTestHelper().logAssertion(getClass().getSimpleName(), "MERCHANDISE TOTAL", driver
                     .findElement(By.xpath(locator.getProperty("summary2.merchtotal.label").toString())).getText());
@@ -668,7 +680,7 @@ public class ShoppingBag {
                                     + getTestHelper().getPrice(shipAmtString)
                                     + getTestHelper().getPrice(taxAmtString));
         }
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END verifyPromoSummary");
     }
@@ -684,14 +696,16 @@ public class ShoppingBag {
      * @param map
      * @throws Exception
      */
-    public void verifyPromotion(WebDriver driver, Properties prop, Properties locator, User user, List<TestCase> tcList,
+    public void verifyPromotion(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user, List<TestCase> tcList,
             Map<String, Boolean> map) throws Exception {
 
 
         logger.info("BEGIN verifyPromotion");
-        String FUNCTIONALITY = "Verify Promotion in shopping bag";
-        testCase = new TestCase("TC-19.7", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_VPR";
+//        String FUNCTIONALITY = "Verify Promotion in shopping bag";
+//        testCase = new TestCase("TC-19.7", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 5);
         wait.until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath(locator.getProperty("summary.title").toString())));
@@ -746,7 +760,7 @@ public class ShoppingBag {
                     promocodeValidationMsgElement.getText());
 
         }
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END verifyPromotion");
     }

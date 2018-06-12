@@ -23,6 +23,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.tatcha.jscripts.commons.TestMethods;
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.commons.ReportGenerator;
 import com.tatcha.jscripts.dao.TestCase;
 import com.tatcha.jscripts.dao.User;
@@ -35,7 +36,7 @@ import com.tatcha.jscripts.myaccount.ProfileSettings;
 import com.tatcha.utils.BrowserDriver;
 
 /**
- * Flow : My Account
+ * Flow 18 : My Account
  * 
  * @author Reshma
  *
@@ -55,7 +56,8 @@ public class LoginMyAccount {
     private TestCase testCase;
     private List<TestCase> tcList = new ArrayList<TestCase>();
     private final String MODULE = "Flow-18 : LoginMyAccount";
-
+    private final String FLOW_ID = "FLOW_18";
+    
     @Before
     public void setUp() throws Exception {
         prop.load(new FileInputStream(getClass().getResource("/tatcha.properties").getFile()));
@@ -85,9 +87,11 @@ public class LoginMyAccount {
     public void testLoginMyAccount() throws Exception {
 
         logger.info("BEGIN testLoginMyAccount");
-        String FUNCTIONALITY = "Login and verify My Account";
-        testCase = new TestCase("Flow-18", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_18";
+//        String FUNCTIONALITY = "Login and verify My Account";
+//        testCase = new TestCase("Flow-18", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy_HH:mm:ss");
         String timeStamp = sdf.format(Calendar.getInstance().getTime());
         logger.info(getClass() + timeStamp);
@@ -127,16 +131,16 @@ public class LoginMyAccount {
             }
             
             // User is logged in
-            testLogin.login(driver, data, locator, user, tcList);
+            testLogin.login(FLOW_ID, driver, data, locator, user, tcList);
             logger.info("SUCCESSFULLY LOGGED-IN");
             
             // Assert and test profile settings in my account
-            profile.verifyProfileSettings(driver, prop, locator, data, user, tcList);
+            profile.verifyProfileSettings(FLOW_ID, driver, prop, locator, data, user, tcList);
             driver.findElement(By.xpath(locator.getProperty("account.back").toString())).click();
             logger.info("Profile Settings done");
 
             // Assert and test address book in my account
-            address.verifyAddressBook(driver, prop, locator, tcList);
+            address.verifyAddressBook(FLOW_ID,driver, prop, locator, tcList);
             driver.findElement(By.xpath(locator.getProperty("account.back").toString())).click();
             logger.info("Address Book done");
 
@@ -145,11 +149,11 @@ public class LoginMyAccount {
 //            driver.findElement(By.xpath(locator.getProperty("account.back").toString())).click();
             
             // Assert and test order history in my account
-            order.verifyOrderHistory(driver, prop, locator, tcList);
+            order.verifyOrderHistory(FLOW_ID, driver, prop, locator, tcList);
             driver.findElement(By.xpath(locator.getProperty("account.back").toString())).click();
             logger.info("Order History done");
 
-            testCase.setStatus("PASS");
+            testCase.setStatus(TcConstants.PASS);
             tcList.add(testCase);
         } catch (Exception exp) {
             try {

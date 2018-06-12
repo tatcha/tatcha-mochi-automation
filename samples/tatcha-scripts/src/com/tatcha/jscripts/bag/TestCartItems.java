@@ -14,6 +14,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.dao.TestCase;
 import com.tatcha.jscripts.dao.User;
 import com.tatcha.jscripts.helper.TatchaTestHelper;
@@ -39,12 +40,14 @@ public class TestCartItems {
      * @param tcList
      * @throws Exception
      */
-    public void testUpdateItemQuantity(WebDriver driver, Properties prop, Properties locator, User user,
+    public void testUpdateItemQuantity(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             List<TestCase> tcList) throws Exception {
         logger.info("BEGIN testUpdateItemQuantity");
-        String FUNCTIONALITY = "Update the quntity of a product in shopping bag";
-        testCase = new TestCase("TC-2.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_UIQ";
+//        String FUNCTIONALITY = "Update the quntity of a product in shopping bag";
+//        testCase = new TestCase("TC-2.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
         // Actions actions = new Actions(driver);
         WebElement titleElement = null;
@@ -104,7 +107,7 @@ public class TestCartItems {
         wait.until(ExpectedConditions.refreshed(ExpectedConditions.stalenessOf(titleElement)));
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.className("bag-item-line ")));
 
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testUpdateItemQuantity");
     }

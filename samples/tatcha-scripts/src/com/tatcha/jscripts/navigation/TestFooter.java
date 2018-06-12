@@ -15,6 +15,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.commons.ReportGenerator;
 import com.tatcha.jscripts.commons.TestMethods;
 import com.tatcha.jscripts.dao.TestCase;
@@ -102,7 +103,7 @@ public class TestFooter extends AbstractWebDriverScriptTestCase {
 		testCase.setFunctionality(FUNCTIONALITY);
 		testCase.setMocNo("MOC-39");
 
-		String STATUS = "FAIL";
+		String STATUS = TcConstants.FAIL;
 		String REMARKS = "";
 		StringBuilder REMARKS_STRING = new StringBuilder();
 
@@ -139,9 +140,9 @@ public class TestFooter extends AbstractWebDriverScriptTestCase {
 		}
 
 		if (ppFLAG && ppFLAG2)
-			STATUS = "PASS";
+			STATUS = TcConstants.PASS;	
 		else
-			STATUS = "FAIL";
+			STATUS = TcConstants.FAIL;
 
 		testCase.setStatus(STATUS);
 		testCase.setRemarks(REMARKS_STRING.toString());
@@ -152,13 +153,13 @@ public class TestFooter extends AbstractWebDriverScriptTestCase {
 		// privacyPolicyElement.getAttribute("href"));
 
 		FUNCTIONALITY = "Terms Of Use";
-		STATUS = "FAIL";
+		STATUS = TcConstants.FAIL;
 		testCase = new TestCase();
 		testCase.setTestNo("TC-" + TESTNO++);
 		testCase.setFunctionality(FUNCTIONALITY);
 		testCase.setMocNo("MOC-39");
 
-		STATUS = "FAIL";
+		STATUS = TcConstants.FAIL;
 		REMARKS = "";
 		REMARKS_STRING = new StringBuilder();
 
@@ -194,9 +195,9 @@ public class TestFooter extends AbstractWebDriverScriptTestCase {
 		// assertEquals(termsOfUse[1], termsOfUseElement.getAttribute("href"));
 
 		if (termsFLAG && termsFLAG2)
-			STATUS = "PASS";
+			STATUS = TcConstants.PASS;
 		else
-			STATUS = "FAIL";
+			STATUS = TcConstants.FAIL;
 
 		testCase.setStatus(STATUS);
 		testCase.setRemarks(REMARKS_STRING.toString());
@@ -211,7 +212,7 @@ public class TestFooter extends AbstractWebDriverScriptTestCase {
 		testCase.setTestNo("TC-" + TESTNO++);
 		testCase.setFunctionality(FUNCTIONALITY);
 		testCase.setMocNo("MOC-39");
-		String STATUS = "FAIL";
+		String STATUS = TcConstants.FAIL;
 		String REMARKS = "";
 		StringBuilder REMARKS_STRING = new StringBuilder();
 		boolean[] FLAGS = new boolean[5];
@@ -303,9 +304,9 @@ public class TestFooter extends AbstractWebDriverScriptTestCase {
 			}
 
 			if (FLAGS[0] && FLAGS[1] && FLAGS[2] && FLAGS[3] & FLAGS[4])
-				STATUS = "PASS";
+				STATUS = TcConstants.PASS;
 			else
-				STATUS = "FAIL";
+				STATUS = TcConstants.FAIL;
 
 			testCase.setStatus(STATUS);
 			testCase.setRemarks(REMARKS_STRING.toString());
@@ -330,7 +331,7 @@ public class TestFooter extends AbstractWebDriverScriptTestCase {
 
 		for (int LISTITEM = 0; LISTITEM < LINECOUNT; LISTITEM++) {
 
-			String STATUS = "FAIL";
+			String STATUS = TcConstants.FAIL;
 			String REMARKS = "";
 			StringBuilder REMARKS_STRING = new StringBuilder();
 
@@ -445,12 +446,12 @@ public class TestFooter extends AbstractWebDriverScriptTestCase {
 				}
 
 				if (FLAG1 && FLAG2 && FLAG3) {
-					STATUS = "PASS";
+					STATUS = TcConstants.PASS;
 					REMARKS_STRING.append("URL = " + HREF_NAME);
 					REMARKS_STRING.append("<BR/>");
 					REMARKS_STRING.append("Next Page Title = " + NEXT_TITLE);
 				} else {
-					STATUS = "FAIL";
+					STATUS = TcConstants.FAIL;
 				}
 
 				testCase.setStatus(STATUS);

@@ -20,6 +20,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.tatcha.jscripts.dao.TestCase;
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.dao.Product;
 import com.tatcha.jscripts.dao.User;
 import com.tatcha.jscripts.helper.TatchaTestHelper;
@@ -30,304 +31,307 @@ import com.tatcha.jscripts.helper.TatchaTestHelper;
  */
 public class TestAddToCart {
 
-    private TatchaTestHelper testHelper = new TatchaTestHelper();
-    private final static Logger logger = Logger.getLogger(TestAddToCart.class);
-    private TestCase testCase;
+	private TatchaTestHelper testHelper = new TatchaTestHelper();
+	private final static Logger logger = Logger.getLogger(TestAddToCart.class);
+	private TestCase testCase;
 
-    /**
-     * Goto the url of a product's pdp and add it to cart
-     * 
-     * @param driver2
-     * @param prop2
-     * @param locator2
-     * @param user
-     * @param tcList
-     * @throws Exception
-     */
-    public void addSpecificProductToCart(WebDriver driver, Properties prop, Properties locator, User user,
-            List<TestCase> tcList) throws Exception {
+	/**
+	 * Goto the url of a product's pdp and add it to cart
+	 * 
+	 * @param driver2
+	 * @param prop2
+	 * @param locator2
+	 * @param user
+	 * @param tcList
+	 * @throws Exception
+	 */
+	public void addSpecificProductToCart(String FLOW_ID, WebDriver driver, Properties prop,
+			Properties locator, User user, List<TestCase> tcList) throws Exception {
 
-        logger.info("BEGIN addSpecificProductToCart");
-        String FUNCTIONALITY = "Adding a specific product to cart";
-        testCase = new TestCase("TC-1.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+		logger.info("BEGIN addSpecificProductToCart");
+		final String FUN_ID = "FUN_ASP";
+		// String FUNCTIONALITY = "Adding a specific product to cart";
+		// testCase = new TestCase("TC-1.1", "MOC-NIL", FUNCTIONALITY, "FAIL",
+		// "");
+		testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
 
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
+		WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
 
-        try {
-            By closeButtonLocator = By.xpath("//*[@id='newsletterModal']/div/div/div[1]/button");
-            wait.until(ExpectedConditions
-                    .visibilityOfElementLocated(By.xpath("//*[@id='newsletterModal']/div/div/div[1]/h4")));
-            wait.until(ExpectedConditions.elementToBeClickable(closeButtonLocator));
-            // Click close button
-            driver.findElement(closeButtonLocator).click();
-            logger.info("Newsletter is present");
-            wait.until(ExpectedConditions
-                    .invisibilityOfElementLocated(By.xpath("//*[@id='newsletterModal']/div/div/div[1]/h4")));
+		try {
+			By closeButtonLocator = By.xpath("//*[@id='newsletterModal']/div/div/div[1]/button");
+			wait.until(ExpectedConditions
+					.visibilityOfElementLocated(By.xpath("//*[@id='newsletterModal']/div/div/div[1]/h4")));
+			wait.until(ExpectedConditions.elementToBeClickable(closeButtonLocator));
+			// Click close button
+			driver.findElement(closeButtonLocator).click();
+			logger.info("Newsletter is present");
+			wait.until(ExpectedConditions
+					.invisibilityOfElementLocated(By.xpath("//*[@id='newsletterModal']/div/div/div[1]/h4")));
 
-        } catch (TimeoutException te) {
-            logger.info("Newsletter is NOT present");
-        }
-        List<Product> products = null;
-        Product product = new Product();
+		} catch (TimeoutException te) {
+			logger.info("Newsletter is NOT present");
+		}
 
-        wait.until(ExpectedConditions.elementToBeClickable(By.id("add-to-cart")));
+		List<Product> products = null;
+		Product product = new Product();
 
-        // Get Product name
-        String productName = driver.findElement(By.xpath("//*[@id='product-content']/div[2]/h1")).getText();
-        logger.info("Product name : " + productName);
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("add-to-cart")));
 
-        product.setName(productName);
+		// Get Product name
+		String productName = driver.findElement(By.xpath("//*[@id='product-content']/div[2]/h1")).getText();
+		logger.info("Product name : " + productName);
 
-        // Get Product price
-        WebElement priceElement = driver
-                .findElement(By.xpath("//*[@id='product-content']/div[3]/div/div[1]/span"));
-        String price = priceElement.getText();
-        if(price.contains("(")) {
-            price = price.substring(0, price.indexOf("(")-1);
-        }
-        product.setPrice(price);
-        product.setWasPrice(priceElement.getText());
+		product.setName(productName);
 
-        if (null == user.getProducts() || user.getProducts().isEmpty()) {
-            products = new ArrayList<Product>();
-        } else {
-            products = user.getProducts();
-        }
-        products.add(product);
+		// Get Product price
+		WebElement priceElement = driver.findElement(By.xpath("//*[@id='product-content']/div[3]/div/div[1]/span"));
+		String price = priceElement.getText();
+		if (price.contains("(")) {
+			price = price.substring(0, price.indexOf("(") - 1);
+		}
+		product.setPrice(price);
+		product.setWasPrice(priceElement.getText());
 
-        // Add to cart
-        driver.findElement(By.id("add-to-cart")).click();
-        logger.info("Item added to cart");
+		if (null == user.getProducts() || user.getProducts().isEmpty()) {
+			products = new ArrayList<Product>();
+		} else {
+			products = user.getProducts();
+		}
+		products.add(product);
 
-        // Set the products associated with user
-        user.setProducts(products);
+		// Add to cart
+		driver.findElement(By.id("add-to-cart")).click();
+		logger.info("Item added to cart");
 
-        // Click View bag in the modal box
-        try {
-            wait.until(ExpectedConditions
-                    .visibilityOfElementLocated(By.xpath("//*[@id='addToBagModal']/div/div/div[1]/h4/strong")));
-        } catch (TimeoutException te) {
-            driver.findElement(By.id("add-to-cart")).click();
-        }
-        driver.findElement(By.xpath("//*[@id='addToBagModal']/div/div/div[3]/div/div[2]/a")).click();
+		// Set the products associated with user
+		user.setProducts(products);
 
-        // Wait until shopping bag title appears
-        wait.until(ExpectedConditions
-                .visibilityOfElementLocated((By.xpath("//*[@id='ext-gen44']/body/main/div[2]/h1"))));
-        testCase.setStatus("PASS");
-        tcList.add(testCase);
-        logger.info("END addSpecificProductToCart");
-    }
+		// Click View bag in the modal box
+		try {
+			wait.until(ExpectedConditions
+					.visibilityOfElementLocated(By.xpath("//*[@id='addToBagModal']/div/div/div[1]/h4/strong")));
+		} catch (TimeoutException te) {
+			driver.findElement(By.id("add-to-cart")).click();
+		}
+		driver.findElement(By.xpath("//*[@id='addToBagModal']/div/div/div[3]/div/div[2]/a")).click();
 
-    /**
-     * Add Gift certificate to cart
-     * 
-     * @param driver
-     * @param locator
-     * @param user
-     * @param tcList
-     * @throws Exception
-     */
-    public void addGiftCertificateToCart(WebDriver driver, Properties locator, User user, List<TestCase> tcList)
-            throws Exception {
-        logger.info("BEGIN addGiftCertificateToCart");
-        String FUNCTIONALITY = "Adding a gift certificate to cart";
-        testCase = new TestCase("TC-1.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+		// Wait until shopping bag title appears
+		wait.until(
+				ExpectedConditions.visibilityOfElementLocated((By.xpath("//*[@id='ext-gen44']/body/main/div[2]/h1"))));
+		testCase.setStatus(TcConstants.PASS);
+		tcList.add(testCase);
+		logger.info("END addSpecificProductToCart");
+	}
 
+	/**
+	 * Add Gift certificate to cart
+	 * 
+	 * @param driver
+	 * @param locator
+	 * @param user
+	 * @param tcList
+	 * @throws Exception
+	 */
+	public void addGiftCertificateToCart(String FLOW_ID, WebDriver driver, Properties locator, User user, List<TestCase> tcList)
+			throws Exception {
+		logger.info("BEGIN addGiftCertificateToCart");
+		final String FUN_ID = "FUN_AGC";
+//		String FUNCTIONALITY = "Adding a gift certificate to cart";
+//		testCase = new TestCase("TC-1.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+		testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+		
+		WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
+		List<Product> products = null;
+		Product product = new Product();
 
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
-        List<Product> products = null;
-        Product product = new Product();
+		try {
+			By closeButtonLocator = By.xpath("//*[@id='newsletterModal']/div/div/div[1]/button");
+			wait.until(ExpectedConditions
+					.visibilityOfElementLocated(By.xpath("//*[@id='newsletterModal']/div/div/div[1]/h4")));
+			wait.until(ExpectedConditions.elementToBeClickable(closeButtonLocator));
+			// Click close button
+			driver.findElement(closeButtonLocator).click();
+			logger.info("Newsletter is present");
+			wait.until(ExpectedConditions
+					.invisibilityOfElementLocated(By.xpath("//*[@id='newsletterModal']/div/div/div[1]/h4")));
 
-        try {
-            By closeButtonLocator = By.xpath("//*[@id='newsletterModal']/div/div/div[1]/button");
-            wait.until(ExpectedConditions
-                    .visibilityOfElementLocated(By.xpath("//*[@id='newsletterModal']/div/div/div[1]/h4")));
-            wait.until(ExpectedConditions.elementToBeClickable(closeButtonLocator));
-            // Click close button
-            driver.findElement(closeButtonLocator).click();
-            logger.info("Newsletter is present");
-            wait.until(ExpectedConditions
-                    .invisibilityOfElementLocated(By.xpath("//*[@id='newsletterModal']/div/div/div[1]/h4")));
+		} catch (TimeoutException te) {
+			logger.info("Newsletter is NOT present");
+		}
 
-        } catch (TimeoutException te) {
-            logger.info("Newsletter is NOT present");
-        }
+		By recipientNameLocator = By.xpath(locator.getProperty("recipient.name.textbox").toString());
+		By recipientEmailLocator = By.xpath(locator.getProperty("recipient.email.textbox").toString());
+		By senderNameLocator = By.xpath(locator.getProperty("sender.name.textbox").toString());
+		By senderEmailLocator = By.xpath(locator.getProperty("sender.email.textbox").toString());
+		By messageLocator = By.xpath(locator.getProperty("gift.message.textarea").toString());
+		By amountLocator = By.xpath(locator.getProperty("gift.amount.dropdown").toString());
+		By inlineBagLocator = By.xpath(locator.getProperty("inline.bag").toString());
 
-        By recipientNameLocator = By.xpath(locator.getProperty("recipient.name.textbox").toString());
-        By recipientEmailLocator = By.xpath(locator.getProperty("recipient.email.textbox").toString());
-        By senderNameLocator = By.xpath(locator.getProperty("sender.name.textbox").toString());
-        By senderEmailLocator = By.xpath(locator.getProperty("sender.email.textbox").toString());
-        By messageLocator = By.xpath(locator.getProperty("gift.message.textarea").toString());
-        By amountLocator = By.xpath(locator.getProperty("gift.amount.dropdown").toString());
-        By inlineBagLocator = By.xpath(locator.getProperty("inline.bag").toString());
+		wait.until(ExpectedConditions.visibilityOfElementLocated(recipientNameLocator));
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(recipientNameLocator));
+		WebElement recipientNameElement = driver.findElement(recipientNameLocator);
+		recipientNameElement.clear();
+		recipientNameElement.sendKeys(locator.getProperty("recipient.name.value").toString());
 
-        WebElement recipientNameElement = driver.findElement(recipientNameLocator);
-        recipientNameElement.clear();
-        recipientNameElement.sendKeys(locator.getProperty("recipient.name.value").toString());
+		WebElement recipientEmailElement = driver.findElement(recipientEmailLocator);
+		recipientEmailElement.clear();
+		recipientEmailElement.sendKeys(locator.getProperty("recipient.email.value").toString());
 
-        WebElement recipientEmailElement = driver.findElement(recipientEmailLocator);
-        recipientEmailElement.clear();
-        recipientEmailElement.sendKeys(locator.getProperty("recipient.email.value").toString());
+		WebElement senderNameElement = driver.findElement(senderNameLocator);
+		senderNameElement.clear();
+		senderNameElement.sendKeys(locator.getProperty("sender.name.value").toString());
 
-        WebElement senderNameElement = driver.findElement(senderNameLocator);
-        senderNameElement.clear();
-        senderNameElement.sendKeys(locator.getProperty("sender.name.value").toString());
+		WebElement senderEmailElement = driver.findElement(senderEmailLocator);
+		senderEmailElement.clear();
+		senderEmailElement.sendKeys(locator.getProperty("sender.email.value").toString());
 
-        WebElement senderEmailElement = driver.findElement(senderEmailLocator);
-        senderEmailElement.clear();
-        senderEmailElement.sendKeys(locator.getProperty("sender.email.value").toString());
+		WebElement messageElement = driver.findElement(messageLocator);
+		messageElement.clear();
+		messageElement.sendKeys(locator.getProperty("gift.message.value").toString());
 
-        WebElement messageElement = driver.findElement(messageLocator);
-        messageElement.clear();
-        messageElement.sendKeys(locator.getProperty("gift.message.value").toString());
+		WebElement amountElement = driver.findElement(amountLocator);
+		Select amount = new Select(amountElement);
+		String amountValue = locator.getProperty("gift.amount.value").toString();
+		if (amountElement.isEnabled()) {
+			amount.selectByVisibleText(amountValue);
+		}
 
-        WebElement amountElement = driver.findElement(amountLocator);
-        Select amount = new Select(amountElement);
-        String amountValue = locator.getProperty("gift.amount.value").toString();
-        if (amountElement.isEnabled()) {
-            amount.selectByVisibleText(amountValue);
-        }
+		WebElement addToBagElement = driver.findElement(By.xpath(locator.getProperty("addToBag.button").toString()));
+		wait.until(ExpectedConditions.elementToBeClickable(addToBagElement));
+		addToBagElement.click();
+		logger.info("Gift certificate added to cart");
 
-        WebElement addToBagElement = driver
-                .findElement(By.xpath(locator.getProperty("addToBag.button").toString()));
-        wait.until(ExpectedConditions.elementToBeClickable(addToBagElement));
-        addToBagElement.click();
-        logger.info("Gift certificate added to cart");
+		product.setName("GIFT CERTIFICATE");
 
-        product.setName("GIFT CERTIFICATE");
+		// Get Product price
+		product.setPrice(amountValue);
+		if (null == user.getProducts() || user.getProducts().isEmpty()) {
+			products = new ArrayList<Product>();
+		} else {
+			products = user.getProducts();
+		}
+		products.add(product);
 
-        // Get Product price
-        product.setPrice(amountValue);
-        if (null == user.getProducts() || user.getProducts().isEmpty()) {
-            products = new ArrayList<Product>();
-        } else {
-            products = user.getProducts();
-        }
-        products.add(product);
+		// Set the products associated with user
+		user.setProducts(products);
 
-        // Set the products associated with user
-        user.setProducts(products);
+		getTestHelper().logAssertion(getClass().getSimpleName(), "1", driver.findElement(inlineBagLocator).getText());
+		driver.findElement(inlineBagLocator).click();
+		wait.until(ExpectedConditions.textToBe(By.xpath(locator.getProperty("shoppingBag.title").toString()),
+				"SHOPPING BAG"));
 
-        getTestHelper().logAssertion(getClass().getSimpleName(), "1",
-                driver.findElement(inlineBagLocator).getText());
-        driver.findElement(inlineBagLocator).click();
-        wait.until(ExpectedConditions.textToBe(By.xpath(locator.getProperty("shoppingBag.title").toString()),
-                "SHOPPING BAG"));
-    
-        testCase.setStatus("PASS");
-        tcList.add(testCase);
-        logger.info("END addGiftCertificateToCart");
-    }
+		testCase.setStatus(TcConstants.PASS);
+		tcList.add(testCase);
+		logger.info("END addGiftCertificateToCart");
+	}
 
-    /**
-     * Adding a list of products to cart
-     * 
-     * @param driver
-     * @param prop
-     * @param locator
-     * @param user
-     * @param tcList
-     * @throws Exception
-     */
-    public void addProductsToCart(WebDriver driver, Properties prop, Properties locator, User user,
-            List<TestCase> tcList) throws Exception {
+	/**
+	 * Adding a list of products to cart
+	 * 
+	 * @param driver
+	 * @param prop
+	 * @param locator
+	 * @param user
+	 * @param tcList
+	 * @throws Exception
+	 */
+	public void addProductsToCart(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
+			List<TestCase> tcList) throws Exception {
 
-        logger.info("BEGIN addProductsToCart");
+		logger.info("BEGIN addProductsToCart");
+		final String FUN_ID = "FUN_APC";
+//		String FUNCTIONALITY = "Adding a list of products to cart";
+//		testCase = new TestCase("TC-1.3", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+		testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID) ;
+				
+		List<Product> products = null;
+		Actions action = new Actions(driver);
+		WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
+		wait.until(ExpectedConditions.visibilityOfElementLocated((By.linkText("SHOP"))));
 
-        String FUNCTIONALITY = "Adding a list of products to cart";
-        testCase = new TestCase("TC-1.3", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+		String productName = null;
+		for (int i = 1; i < 10; i++) {
+			try {
+				productName = prop.getProperty("addToCart.item" + i + ".name");
+				if (null != productName) {
+					// Go to Product list page
+					WebElement element = driver.findElement(By.linkText("SHOP"));
+					action.moveToElement(element).build().perform();
+					driver.findElement(By.linkText("Shop All")).click();
+					// Click on the product name
+					WebElement addToCartElement = null;
+					try {
+						wait.until(ExpectedConditions
+								.visibilityOfElementLocated(By.xpath("//a[contains(text(),'" + productName + "')]")));
+						WebElement productImageElement = driver
+								.findElement(By.xpath("//a[contains(text(),'" + productName + "')]"));
+						productImageElement.click();
 
-        List<Product> products = null;
-        Actions action = new Actions(driver);
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
-        wait.until(ExpectedConditions.visibilityOfElementLocated((By.linkText("SHOP"))));
+						addToCartElement = driver.findElement(By.id("add-to-cart"));
+					} catch (NoSuchElementException exe) {
+						continue;
+					} catch (TimeoutException exe) {
+						continue;
+					} catch (WebDriverException exe) {
+						continue;
+					}
+					Product product = new Product();
+					product.setName(productName);
 
-        String productName = null;
-        for (int i = 1; i < 10; i++) {
-            try {
-                productName = prop.getProperty("addToCart.item" + i + ".name");
-                if (null != productName) {
-                    // Go to Product list page
-                    WebElement element = driver.findElement(By.linkText("SHOP"));
-                    action.moveToElement(element).build().perform();
-                    driver.findElement(By.linkText("Shop All")).click();
-                    // Click on the product name
-                    WebElement addToCartElement = null;
-                    try {
-                        wait.until(ExpectedConditions.visibilityOfElementLocated(
-                                By.xpath("//a[contains(text(),'" + productName + "')]")));
-                        WebElement productImageElement = driver
-                                .findElement(By.xpath("//a[contains(text(),'" + productName + "')]"));
-                        productImageElement.click();
+					WebElement priceElement = driver
+							.findElement(By.xpath("//*[@id='product-content']/div[3]/div/div[1]/div/span"));
+					product.setPrice(priceElement.getText());
+					product.setWasPrice(priceElement.getText());
+					if (null == user.getProducts() || user.getProducts().isEmpty()) {
+						products = new ArrayList<Product>();
+					} else {
+						products = user.getProducts();
+					}
+					products.add(product);
 
-                        addToCartElement = driver.findElement(By.id("add-to-cart"));
-                    } catch (NoSuchElementException exe) {
-                        continue;
-                    } catch (TimeoutException exe) {
-                        continue;
-                    } catch (WebDriverException exe) {
-                        continue;
-                    }
-                    Product product = new Product();
-                    product.setName(productName);
+					// Add to cart
+					addToCartElement.click();
+				} else {
+					break;
+				}
 
-                    WebElement priceElement = driver
-                            .findElement(By.xpath("//*[@id='product-content']/div[3]/div/div[1]/div/span"));
-                    product.setPrice(priceElement.getText());
-                    product.setWasPrice(priceElement.getText());
-                    if (null == user.getProducts() || user.getProducts().isEmpty()) {
-                        products = new ArrayList<Product>();
-                    } else {
-                        products = user.getProducts();
-                    }
-                    products.add(product);
+			} catch (NoSuchElementException exe) {
+				System.err.println("ADD TO CART : " + exe.toString());
+			} catch (TimeoutException exe) {
+				System.err.println("ADD TO CART : " + exe.toString());
+			}
+		}
 
-                    // Add to cart
-                    addToCartElement.click();
-                } else {
-                    break;
-                }
+		// Set the products associated with user(guest)
+		user.setProducts(products);
 
-            } catch (NoSuchElementException exe) {
-                System.err.println("ADD TO CART : " + exe.toString());
-            } catch (TimeoutException exe) {
-                System.err.println("ADD TO CART : " + exe.toString());
-            }
-        }
+		// Get inline bag and assert the item count
+		WebElement inlineBagElement = driver.findElement(By.xpath("//*[@id='mini-cart']/div[1]/a/div"));
+		getTestHelper().logAssertion(getClass().getSimpleName(), Integer.toString(products.size()),
+				inlineBagElement.getText());
 
-        // Set the products associated with user(guest)
-        user.setProducts(products);
+		// Go to bag page
+		inlineBagElement.click();
+		wait.until(
+				ExpectedConditions.visibilityOfElementLocated((By.xpath("//*[@id='ext-gen44']/body/main/div[1]/h1"))));
+		testCase.setStatus(TcConstants.PASS);
+		tcList.add(testCase);
+		logger.info("END addProductsToCart");
+	}
 
-        // Get inline bag and assert the item count
-        WebElement inlineBagElement = driver.findElement(By.xpath("//*[@id='mini-cart']/div[1]/a/div"));
-        getTestHelper().logAssertion(getClass().getSimpleName(), Integer.toString(products.size()),
-                inlineBagElement.getText());
+	/**
+	 * @return the testHelper
+	 */
+	public TatchaTestHelper getTestHelper() {
+		return testHelper;
+	}
 
-        // Go to bag page
-        inlineBagElement.click();
-        wait.until(ExpectedConditions
-                .visibilityOfElementLocated((By.xpath("//*[@id='ext-gen44']/body/main/div[1]/h1"))));
-        testCase.setStatus("PASS");
-        tcList.add(testCase);
-        logger.info("END addProductsToCart");
-    }
-
-    /**
-     * @return the testHelper
-     */
-    public TatchaTestHelper getTestHelper() {
-        return testHelper;
-    }
-
-    /**
-     * @param testHelper
-     *            the testHelper to set
-     */
-    public void setTestHelper(TatchaTestHelper testHelper) {
-        this.testHelper = testHelper;
-    }
+	/**
+	 * @param testHelper
+	 *            the testHelper to set
+	 */
+	public void setTestHelper(TatchaTestHelper testHelper) {
+		this.testHelper = testHelper;
+	}
 
 }

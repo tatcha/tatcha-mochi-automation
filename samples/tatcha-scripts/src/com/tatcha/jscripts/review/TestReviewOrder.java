@@ -13,6 +13,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.dao.TestCase;
 import com.tatcha.jscripts.dao.User;
 import com.tatcha.jscripts.helper.TatchaTestHelper;
@@ -38,13 +39,15 @@ public class TestReviewOrder {
      * @param tcList
      * @throws Exception
      */
-    public void testReviewOrder(WebDriver driver, Properties prop, Properties locator, User user,
+    public void testReviewOrder(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             Map<String, Boolean> map, List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN testReviewOrder");
-        String FUNCTIONALITY = "Verify checkbox when address is international";
-        testCase = new TestCase("TC-12.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_RO";
+//        String FUNCTIONALITY = "Verify checkbox when address is international";
+//        testCase = new TestCase("TC-12.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
         WebDriverWait wait3 = (WebDriverWait) new WebDriverWait(driver, 3);
 
@@ -80,7 +83,7 @@ public class TestReviewOrder {
             logger.info("If checkbox not present then shipping address should be US address");
         }
 
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testReviewOrder");
     }
@@ -96,13 +99,15 @@ public class TestReviewOrder {
      * @param tcList
      * @throws Exception
      */
-    public void testGuestReviewOrder(WebDriver driver, Properties prop, Properties locator, User user,
+    public void testGuestReviewOrder(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             Map<String, Boolean> map, Properties data, List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN testGuestReviewOrder");
-        String FUNCTIONALITY = "Verify checkbox when address is international for guest checkout";
-        testCase = new TestCase("TC-12.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_GRO";
+//        String FUNCTIONALITY = "Verify checkbox when address is international for guest checkout";
+//        testCase = new TestCase("TC-12.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
         WebDriverWait wait3 = (WebDriverWait) new WebDriverWait(driver, 3);
         Actions action = new Actions(driver);
@@ -148,7 +153,7 @@ public class TestReviewOrder {
             logger.info("If checkbox not present then shipping address should be US address");
         }
 
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testGuestReviewOrder");
     }

@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.dao.TestCase;
 import com.tatcha.jscripts.dao.User;
 import com.tatcha.jscripts.helper.TatchaTestHelper;
@@ -44,13 +45,16 @@ public class TestShippingAddress {
      * @return
      * @throws Exception
      */
-    public String testAddFirstShippingAddress(WebDriver driver, Properties prop, Properties locator, User user,
+    public String testAddFirstShippingAddress(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             List<TestCase> tcList) throws Exception {
 
 
         logger.info("BEGIN testAddFirstShippingAddress");
-        String FUNCTIONALITY = "Populate shipping address fields of thr first address";
-        testCase = new TestCase("TC-15.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        final String FUN_ID = "FUN_AFSHA";
+//        String FUNCTIONALITY = "Populate shipping address fields of thr first address";
+//        testCase = new TestCase("TC-15.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         String addressId = null;
 
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 5);
@@ -158,7 +162,7 @@ public class TestShippingAddress {
         addAddrPhoneElement.clear();
         addAddrPhoneElement.sendKeys(prop.getProperty("addressbook.phone").toString());
 
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testAddFirstShippingAddress");
         return addressId;
@@ -175,13 +179,15 @@ public class TestShippingAddress {
      * @param tcList
      * @throws Exception
      */
-    public void testAddShippingAddress(WebDriver driver, Properties prop, Properties locator, User user,
+    public void testAddShippingAddress(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN testAddShippingAddress");
-        String FUNCTIONALITY = "Populate the shipping address fields";
-        testCase = new TestCase("TC-15.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_ASHA";
+//        String FUNCTIONALITY = "Populate the shipping address fields";
+//        testCase = new TestCase("TC-15.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         AddressBook addrBook = new AddressBook();
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
         Actions actions = new Actions(driver);
@@ -209,14 +215,14 @@ public class TestShippingAddress {
             addAddressButtonElement.click();
         }
         logger.info("Add a new shipping address for test");
-        addrBook.populateAddressBook(driver, prop, myAccountLocator, true, true, tcList);
+        addrBook.populateAddressBook(FLOW_ID, driver, prop, myAccountLocator, true, true, tcList);
         wait.until(ExpectedConditions
                 .elementToBeClickable(By.xpath(locator.getProperty("shipping.addAddr.save.button").toString())));
         driver.findElement(By.xpath(locator.getProperty("shipping.addAddr.save.button").toString())).click();
         wait.until(ExpectedConditions
                 .invisibilityOfElementLocated(By.xpath(locator.getProperty("shipping.addAddr.title").toString())));
 
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testAddShippingAddress");
     }
@@ -231,12 +237,14 @@ public class TestShippingAddress {
      * @param tcList
      * @throws Exception
      */
-    public void testSelectShippingAddress(WebDriver driver, Properties prop, Properties locator, User user,
+    public void testSelectShippingAddress(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN testSelectShippingAddress");
-        String FUNCTIONALITY = "Select a shipping address from the list";
-        testCase = new TestCase("TC-15.3", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        final String FUN_ID = "FUN_SSHA";
+//        String FUNCTIONALITY = "Select a shipping address from the list";
+//        testCase = new TestCase("TC-15.3", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
 
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
         Actions actions = new Actions(driver);
@@ -261,7 +269,7 @@ public class TestShippingAddress {
             }
         }
 
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testSelectShippingAddress");
     }

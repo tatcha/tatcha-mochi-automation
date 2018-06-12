@@ -15,6 +15,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.tatcha.jscripts.TatchaConstants;
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.commons.ReportGenerator;
 import com.tatcha.jscripts.commons.TestMethods;
 import com.tatcha.jscripts.dao.Product;
@@ -389,7 +390,7 @@ public class TestPLP extends AbstractWebDriverScriptTestCase {
 			}
 
 			if (FLAG1 || FLAG2 || FLAG3 || FLAG4 || FLAG5 || FLAG6) {
-				STATUS = "PASS";
+				STATUS = TcConstants.PASS;
 				REMARKS_STRING.append(product.getName() + "<BR/>");
 				if (null != product.getFlag1() && !product.getFlag1().isEmpty())
 					REMARKS_STRING.append(product.getFlag1() + "<BR/>");
@@ -411,7 +412,7 @@ public class TestPLP extends AbstractWebDriverScriptTestCase {
 					REMARKS_STRING.append(product.getRatings());
 
 			} else
-				STATUS = "FAIL";
+				STATUS = TcConstants.PASS;
 
 			testCase.setStatus(STATUS);
 			testCase.setRemarks(REMARKS_STRING.toString());

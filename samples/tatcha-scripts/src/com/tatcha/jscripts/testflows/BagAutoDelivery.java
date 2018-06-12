@@ -23,6 +23,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.bag.ShoppingBag;
 import com.tatcha.jscripts.bag.TestAddToCart;
 import com.tatcha.jscripts.commons.ReportGenerator;
@@ -39,7 +40,7 @@ import com.tatcha.jscripts.summary.TestSummary;
 import com.tatcha.utils.BrowserDriver;
 
 /**
- * Flow : 13
+ * Flow : 19
  * 
  * @author Reshma
  *
@@ -60,6 +61,7 @@ public class BagAutoDelivery {
     private TestCase testCase;
     private List<TestCase> tcList = new ArrayList<TestCase>();
     private final String MODULE = "Flow-19 : BagAutoDelivery";
+    private final String FLOW_ID = "FLOW_19";
 
     @Before
     public void setUp() throws Exception {
@@ -89,10 +91,10 @@ public class BagAutoDelivery {
      */
     @Test
     public void testBagAutoDelivery() throws Exception {
-
-        String FUNCTIONALITY = "Enable auto delivery for a product from shopping bag and checkout";
-        testCase = new TestCase("Flow-19", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+    	final String FUN_ID = "FUN_19";
+//        String FUNCTIONALITY = "Enable auto delivery for a product from shopping bag and checkout";
+//        testCase = new TestCase("Flow-19", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy_HH:mm:ss");
         String timeStamp = sdf.format(Calendar.getInstance().getTime());
         logger.info(getClass() + timeStamp);
@@ -125,13 +127,13 @@ public class BagAutoDelivery {
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
 
         try {
-            addToCart.addSpecificProductToCart(driver, prop, locator, user, tcList);
+            addToCart.addSpecificProductToCart(FLOW_ID, driver, prop, locator, user, tcList);
 
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h2.panel-title")));
             wait.until(ExpectedConditions
                     .elementToBeClickable(By.xpath("//*[@id='cart-table']/div[2]/div/div[2]/button")));
 
-            testBag.verifyShoppingBag(driver, prop, bagLocator, user, map, tcList);
+            testBag.verifyShoppingBag(FLOW_ID, driver, prop, bagLocator, user, map, tcList);
 
             // Click checkout button in shopping bag
             Actions actions = new Actions(driver);
@@ -141,14 +143,14 @@ public class BagAutoDelivery {
             actions.perform();
 
             // Login as a registered user at the checkout
-            testLogin.checkoutLogin(driver, data, user, tcList);
+            testLogin.checkoutLogin(FLOW_ID, driver, data, user, tcList);
 
             // Verify Review Order for express checkout
-            reviewOrder.verifyReviewOrder2(driver, prop, locator, user, map, tcList, false);
+            reviewOrder.verifyReviewOrder2(FLOW_ID, driver, prop, locator, user, map, tcList, false);
 
-            testSummary.testSummary(driver, prop, locator, user, map, tcList);
+            testSummary.testSummary(FLOW_ID, driver, prop, locator, user, map, tcList);
 
-            testPayment.testPaymentSection(driver, prop, locator, user, map, tcList);
+            testPayment.testPaymentSection(FLOW_ID,driver, prop, locator, user, map, tcList);
             
             // Click place order button
             By placeOrderButtonLocator = By.xpath(locator.getProperty("reviewOrder.placeOrder.button").toString());
@@ -158,9 +160,9 @@ public class BagAutoDelivery {
             }
 
             TestOrderConfirmation testConf = new TestOrderConfirmation();
-            testConf.verifyOrderConfirmation(driver, prop, locator, user, tcList);
+            testConf.verifyOrderConfirmation(FLOW_ID, driver, prop, locator, user, tcList);
 
-            testCase.setStatus("PASS");
+            testCase.setStatus(TcConstants.PASS);
             tcList.add(testCase);
         } catch (Exception exp) {
             try {

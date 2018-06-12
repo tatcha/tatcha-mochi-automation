@@ -13,8 +13,11 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.dao.TestCase;
 import com.tatcha.jscripts.helper.TatchaTestHelper;
+
+import junit.framework.Test;
 
 /**
  * Verify Order History page
@@ -37,10 +40,12 @@ public class OrderHistory {
      * @param locator
      * @throws Exception
      */
-    public void verifyOrderHistory(WebDriver driver, Properties prop, Properties locator, List<TestCase> tcList) throws Exception {
+    public void verifyOrderHistory(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, List<TestCase> tcList) throws Exception {
         logger.info("BEGIN verifyOrderHistory");
-        String FUNCTIONALITY = "Verify the order history page";
-        testCase = new TestCase("TC-20.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        final String FUN_ID = "FUN_VOH";
+//        String FUNCTIONALITY = "Verify the order history page";
+//        testCase = new TestCase("TC-20.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
         
         Actions actions = new Actions(driver);
         boolean isOrderHistoryPresent = false;
@@ -82,10 +87,10 @@ public class OrderHistory {
                 WebElement viewDetailsButtonElement = driver.findElement(By.xpath("//*[@id='dwfrm_orders']/ul/li["+i+"]/div/div[3]/button"));
                 actions.moveToElement(viewDetailsButtonElement).click(viewDetailsButtonElement);
                 actions.perform();
-                verifyOrderDetails(driver, prop, locator, orderId, productNameList, tcList);
+                verifyOrderDetails(FLOW_ID, driver, prop, locator, orderId, productNameList, tcList);
             }
         }
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END verifyOrderHistory");
     }
@@ -99,10 +104,13 @@ public class OrderHistory {
      * @param orderId
      * @param productNameList
      */
-    private void verifyOrderDetails(WebDriver driver, Properties prop, Properties locator, String orderId, List<String> productNameList, List<TestCase> tcList) throws Exception {
+    private void verifyOrderDetails(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, String orderId, List<String> productNameList, List<TestCase> tcList) throws Exception {
         logger.info("BEGIN verifyOrderDetails");
-        String FUNCTIONALITY = "Verify the order details of each order in order history";
-        testCase = new TestCase("TC-20.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        final String FUN_ID = "FUN_VOD";
+//        String FUNCTIONALITY = "Verify the order details of each order in order history";
+//        testCase = new TestCase("TC-20.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
 
         // Assert Order Id
@@ -132,7 +140,7 @@ public class OrderHistory {
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h1.text-center")));
         
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END verifyOrderDetails");
 

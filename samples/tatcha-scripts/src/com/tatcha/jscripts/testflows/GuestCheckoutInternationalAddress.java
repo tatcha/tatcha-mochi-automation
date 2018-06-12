@@ -23,6 +23,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.bag.TestAddToCart;
 import com.tatcha.jscripts.commons.ReportGenerator;
 import com.tatcha.jscripts.dao.TestCase;
@@ -38,7 +39,7 @@ import com.tatcha.jscripts.shipping.ShippingAddress;
 import com.tatcha.utils.BrowserDriver;
 
 /**
- * Flow : Add to cart - Checkout as guest - Add international address - Add Gift
+ * Flow 10 : Add to cart - Checkout as guest - Add international address - Add Gift
  * card - Place order (as guest)
  * 
  * @author Reshma
@@ -46,140 +47,142 @@ import com.tatcha.utils.BrowserDriver;
  */
 public class GuestCheckoutInternationalAddress {
 
-    private WebDriver driver = BrowserDriver.getChromeWebDriver();
-    private StringBuffer verificationErrors = new StringBuffer();
-    private Properties prop = new Properties();
-    private Properties locator = new Properties();
-    private Properties data = new Properties();
+	private WebDriver driver = BrowserDriver.getChromeWebDriver();
+	private StringBuffer verificationErrors = new StringBuffer();
+	private Properties prop = new Properties();
+	private Properties locator = new Properties();
+	private Properties data = new Properties();
 
-    private TatchaTestHelper testHelper = new TatchaTestHelper();
-    private final static Logger logger = Logger.getLogger(GuestCheckoutInternationalAddress.class);
+	private TatchaTestHelper testHelper = new TatchaTestHelper();
+	private final static Logger logger = Logger.getLogger(GuestCheckoutInternationalAddress.class);
 
-    private static TestMethods tmethods;
-    private TestCase testCase;
-    private List<TestCase> tcList = new ArrayList<TestCase>();
-    private final String MODULE = "Flow-10 : GuestCheckoutInternationalAddress";
+	private static TestMethods tmethods;
+	private TestCase testCase;
+	private List<TestCase> tcList = new ArrayList<TestCase>();
+	private final String MODULE = "Flow-10 : GuestCheckoutInternationalAddress";
+	private final String FLOW_ID = "FLOW_10";
 
-    @Before
-    public void setUp() throws Exception {
-        prop.load(new FileInputStream(getClass().getResource("/tatcha.properties").getFile()));
-        locator.load(new FileInputStream(getClass().getResource("/checkoutElementLocator.properties").getFile()));
-        data.load(
-                new FileInputStream(getClass().getResource("/testFlows/GuestCheckoutInternationalAddress.properties").getFile()));
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+	@Before
+	public void setUp() throws Exception {
+		prop.load(new FileInputStream(getClass().getResource("/tatcha.properties").getFile()));
+		locator.load(new FileInputStream(getClass().getResource("/checkoutElementLocator.properties").getFile()));
+		data.load(new FileInputStream(
+				getClass().getResource("/testFlows/GuestCheckoutInternationalAddress.properties").getFile()));
+		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
-        boolean testInLocal = Boolean.parseBoolean(prop.getProperty("testInLocal").toString());
-        if (testInLocal) {
-            String url = data.getProperty("url").toString();
-            driver.get(url);
-        } else {
-            tmethods = TestMethods.getInstance();
-            String baseUrl = tmethods.getBaseURL();
-            driver.get(baseUrl);
-        }
-    }
+		boolean testInLocal = Boolean.parseBoolean(prop.getProperty("testInLocal").toString());
+		if (testInLocal) {
+			String url = data.getProperty("url").toString();
+			driver.get(url);
+		} else {
+			tmethods = TestMethods.getInstance();
+			String baseUrl = tmethods.getBaseURL();
+			driver.get(baseUrl);
+		}
+	}
 
-    /**
-     * Test the Checkout flow of guest user with international address
-     * 
-     * @throws Exception
-     */
-    @Test
-    public void testGuestCheckoutInternationalAddress() throws Exception {
+	/**
+	 * Test the Checkout flow of guest user with international address
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testGuestCheckoutInternationalAddress() throws Exception {
+		final String FUN_ID = "FUN_10";
+//		String FUNCTIONALITY = "Checkout as a guest with international address and gift card";
+//		testCase = new TestCase("Flow-10", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+		testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
 
-        String FUNCTIONALITY = "Checkout as a guest with international address and gift card";
-        testCase = new TestCase("Flow-10", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy_HH:mm:ss");
+		String timeStamp = sdf.format(Calendar.getInstance().getTime());
+		logger.info(getClass() + timeStamp);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy_HH:mm:ss");
-        String timeStamp = sdf.format(Calendar.getInstance().getTime());
-        logger.info(getClass() + timeStamp);
+		ShippingAddress shipping = new ShippingAddress();
+		PaymentOption payment = new PaymentOption();
+		ReviewOrder reviewOrder = new ReviewOrder();
+		User user = new User();
+		TestAddToCart addToCart = new TestAddToCart();
+		TestLogin testLogin = new TestLogin();
 
-        ShippingAddress shipping = new ShippingAddress();
-        PaymentOption payment = new PaymentOption();
-        ReviewOrder reviewOrder = new ReviewOrder();
-        User user = new User();
-        TestAddToCart addToCart = new TestAddToCart();
-        TestLogin testLogin = new TestLogin();
+		Map<String, Boolean> map = new HashMap<String, Boolean>();
+		map.put("isLogged", false);
+		map.put("isUSAddress", false);
+		map.put("isGiftCard", true);
+		map.put("isCreditCard", false);
+		map.put("isRegister", false);
 
-        Map<String, Boolean> map = new HashMap<String, Boolean>();
-        map.put("isLogged", false);
-        map.put("isUSAddress", false);
-        map.put("isGiftCard", true);
-        map.put("isCreditCard", false);
-        map.put("isRegister", false);
+		WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
 
-        WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
+		try {
+			addToCart.addSpecificProductToCart(FLOW_ID, driver, prop, locator, user, tcList);
 
-        try {
-            addToCart.addSpecificProductToCart(driver, prop, locator, user, tcList);
+			// wait till shopping bag title is visible and checkout button is
+			// clickable
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h2.panel-title")));
+			wait.until(ExpectedConditions
+					.elementToBeClickable(By.xpath("//*[@id='cart-table']/div[2]/div/div[2]/button")));
 
-            // wait till shopping bag title is visible and checkout button is
-            // clickable
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h2.panel-title")));
-            wait.until(ExpectedConditions
-                    .elementToBeClickable(By.xpath("//*[@id='cart-table']/div[2]/div/div[2]/button")));
+			// Click checkout button in shopping bag
+			Actions actions = new Actions(driver);
+			WebElement checkoutButtonElement = driver
+					.findElement(By.xpath("//*[@id='cart-table']/div[2]/div/div[2]/button"));
+			actions.moveToElement(checkoutButtonElement).click(checkoutButtonElement);
+			actions.perform();
 
-            // Click checkout button in shopping bag
-            Actions actions = new Actions(driver);
-            WebElement checkoutButtonElement = driver
-                    .findElement(By.xpath("//*[@id='cart-table']/div[2]/div/div[2]/button"));
-            actions.moveToElement(checkoutButtonElement).click(checkoutButtonElement);
-            actions.perform();
+			// Login as a registered user at the checkout
+			testLogin.checkoutGuest(FLOW_ID, driver, data, user, tcList);
 
-            // Login as a registered user at the checkout
-            testLogin.checkoutGuest(driver, data, user, tcList);
+			// Verify shipping address page
+			shipping.verifyShippingAddress(FLOW_ID, driver, prop, locator, user, map, data, tcList);
 
-            // Verify shipping address page
-            shipping.verifyShippingAddress(driver, prop, locator, user, map, data, tcList);
+			// Verify payment page
+			payment.verifyPaymentOption2(FLOW_ID, driver, prop, locator, user, map, tcList);
 
-            // Verify payment page
-            payment.verifyPaymentOption2(driver, prop, locator, user, map, tcList);
+			// Verify Review Order
+			reviewOrder.verifyGuestReviewOrder(FLOW_ID, driver, prop, locator, user, map, data, tcList);
 
-            // Verify Review Order
-            reviewOrder.verifyGuestReviewOrder(driver, prop, locator, user, map, data, tcList);
+			TestOrderConfirmation testConf = new TestOrderConfirmation();
+			testConf.verifyOrderConfirmation(FLOW_ID, driver, prop, locator, user, tcList);
 
-            TestOrderConfirmation testConf = new TestOrderConfirmation();
-            testConf.verifyOrderConfirmation(driver, prop, locator, user, tcList);
+			testCase.setStatus(TcConstants.PASS);
+			tcList.add(testCase);
+		} catch (Exception exp) {
+			try {
+				throw new TatchaException(exp, tcList);
+			} catch (Exception e) {
+				logger.error("Handling Tatcha Exception " + e.toString());
+			}
+		}
+		boolean generateReport = Boolean.parseBoolean(prop.getProperty("generateReport").toString());
+		if (generateReport && ReportGenerator.getInstance().generateReport(MODULE, tcList)) {
+			logger.info("Report Generation Succeeded for: " + MODULE);
+		} else {
+			logger.info("Report Generation Failed for: " + MODULE);
+		}
+		logger.info("END testGuestCheckoutInternationalAddress");
+	}
 
-            testCase.setStatus("PASS");
-            tcList.add(testCase);
-        } catch (Exception exp) {
-            try {
-                throw new TatchaException(exp, tcList);
-            } catch (Exception e) {
-                logger.error("Handling Tatcha Exception " + e.toString());
-            }
-        }
-        boolean generateReport = Boolean.parseBoolean(prop.getProperty("generateReport").toString());
-        if (generateReport && ReportGenerator.getInstance().generateReport(MODULE, tcList)) {
-            logger.info("Report Generation Succeeded for: " + MODULE);
-        } else {
-            logger.info("Report Generation Failed for: " + MODULE);
-        }
-        logger.info("END testGuestCheckoutInternationalAddress");
-    }
+	/**
+	 * @return the testHelper
+	 */
+	public TatchaTestHelper getTestHelper() {
+		return testHelper;
+	}
 
-    /**
-     * @return the testHelper
-     */
-    public TatchaTestHelper getTestHelper() {
-        return testHelper;
-    }
+	/**
+	 * @param testHelper
+	 *            the testHelper to set
+	 */
+	public void setTestHelper(TatchaTestHelper testHelper) {
+		this.testHelper = testHelper;
+	}
 
-    /**
-     * @param testHelper
-     *            the testHelper to set
-     */
-    public void setTestHelper(TatchaTestHelper testHelper) {
-        this.testHelper = testHelper;
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        driver.quit();
-        String verificationErrorString = verificationErrors.toString();
-        if (!"".equals(verificationErrorString)) {
-            fail(verificationErrorString);
-        }
-    }
+	@After
+	public void tearDown() throws Exception {
+		driver.quit();
+		String verificationErrorString = verificationErrors.toString();
+		if (!"".equals(verificationErrorString)) {
+			fail(verificationErrorString);
+		}
+	}
 }

@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.dao.TestCase;
 import com.tatcha.jscripts.dao.User;
 import com.tatcha.jscripts.helper.TatchaTestHelper;
@@ -39,14 +40,16 @@ public class TestShippingOption {
      * @param tcList
      * @throws Exception
      */
-    public void testSelectShippingOption(WebDriver driver, Properties prop, Properties locator, User user,
+    public void testSelectShippingOption(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             List<TestCase> tcList) throws Exception {
 
 
         logger.info("BEGIN testSelectShippingOption");
-        String FUNCTIONALITY = "Select a shipping option";
-        testCase = new TestCase("TC-16.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_SSHO";
+//        String FUNCTIONALITY = "Select a shipping option";
+//        testCase = new TestCase("TC-16.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
         getTestHelper().logAssertion(getClass().getSimpleName(), "Shipping Options",
                 driver.findElement(By.xpath(locator.getProperty("shipping.option.title").toString())).getText());
@@ -106,7 +109,7 @@ public class TestShippingOption {
                     .findElement(By.xpath(locator.getProperty("summary.shipping.value").toString())).getText());
         }
 
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testSelectShippingOption");
     }

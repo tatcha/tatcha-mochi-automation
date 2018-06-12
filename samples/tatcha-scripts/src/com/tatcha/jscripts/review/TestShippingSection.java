@@ -13,6 +13,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.dao.TestCase;
 import com.tatcha.jscripts.dao.User;
 import com.tatcha.jscripts.helper.TatchaTestHelper;
@@ -42,13 +43,15 @@ public class TestShippingSection {
      * @param tcList
      * @throws Exception
      */
-    public void testShippingSection(WebDriver driver, Properties prop, Properties locator, User user,
+    public void testShippingSection(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             Map<String, Boolean> map, List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN testShippingSection");
-        String FUNCTIONALITY = "Verify the edit button of shipping section in order review page";
-        testCase = new TestCase("TC-13.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_SH";
+//        String FUNCTIONALITY = "Verify the edit button of shipping section in order review page";
+//        testCase = new TestCase("TC-13.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
         WebDriverWait wait3 = (WebDriverWait) new WebDriverWait(driver, 3);
 
@@ -131,7 +134,7 @@ public class TestShippingSection {
         wait.until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath(locator.getProperty("reviewOrder.title").toString())));
 
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testShippingSection");
     }
@@ -147,13 +150,15 @@ public class TestShippingSection {
      * @param tcList
      * @throws Exception
      */
-    public void testReviewShipping(WebDriver driver, Properties prop, Properties locator, User user,
+    public void testReviewShipping(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             Map<String, Boolean> map, List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN testReviewShipping");
-        String FUNCTIONALITY = "Review shipping details of Order Review page";
-        testCase = new TestCase("TC-13.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        String FUN_ID = "FUN_RSH";
+//        String FUNCTIONALITY = "Review shipping details of Order Review page";
+//        testCase = new TestCase("TC-13.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         if (map.get("isLogged") && map.get("isUSAddress")) {
             logger.info("Condition 1");
             getTestHelper().logAssertion(getClass().getSimpleName(), "SHIPPING",
@@ -210,7 +215,7 @@ public class TestShippingSection {
                             .getText());
         }
 
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testReviewShipping");
     }
@@ -227,13 +232,15 @@ public class TestShippingSection {
      * @param tcList
      * @throws Exception
      */
-    public void testEditShipping(WebDriver driver, Properties prop, Properties locator, User user,
+    public void testEditShipping(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             Map<String, Boolean> map, List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN testEditShipping");
-        String FUNCTIONALITY = "Edit shipping details from order review page";
-        testCase = new TestCase("TC-13.3", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_ESH";
+//        String FUNCTIONALITY = "Edit shipping details from order review page";
+//        testCase = new TestCase("TC-13.3", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        		
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
         WebDriverWait wait3 = (WebDriverWait) new WebDriverWait(driver, 3);
 
@@ -300,7 +307,7 @@ public class TestShippingSection {
             logger.info("Loading Gif image cannot be located");
         }
 
-        testAddress.testSelectShippingAddress(driver, prop, locator, user, tcList);
+        testAddress.testSelectShippingAddress(FLOW_ID, driver, prop, locator, user, tcList);
 
         try {
             // Wait for gif image(loading) to become stale
@@ -331,7 +338,7 @@ public class TestShippingSection {
                     .visibilityOfElementLocated(By.xpath(locator.getProperty("reviewOrder.title").toString())));
         }
 
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testEditShipping");
     

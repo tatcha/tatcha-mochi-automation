@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.dao.TestCase;
 import com.tatcha.jscripts.dao.User;
 import com.tatcha.jscripts.helper.TatchaTestHelper;
@@ -39,13 +40,16 @@ public class TestCreateAccount {
      * @param tcList
      * @throws Exception
      */
-    public void testCreateAccount(WebDriver driver, Properties prop, Properties locator, User user,
+    public void testCreateAccount(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             Map<String, Boolean> map, Properties data, List<TestCase> tcList) throws Exception {
 
 
         logger.info("BEGIN testCreateAccount");
-        String FUNCTIONALITY = "Create account on checkout";
-        testCase = new TestCase("TC-10.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        final String FUN_ID = "FUN_CAC";
+//        String FUNCTIONALITY = "Create account on checkout";
+//        testCase = new TestCase("TC-10.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
 
         if (map.get("isUSAddress")) {
@@ -161,7 +165,7 @@ public class TestCreateAccount {
                 confirmPasswordElement.sendKeys(data.getProperty("password").toString());
             }
         }
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testCreateAccount");
     }

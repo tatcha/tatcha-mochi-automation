@@ -23,6 +23,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.bag.TestAddToCart;
 import com.tatcha.jscripts.bag.TestCartItems;
 import com.tatcha.jscripts.commons.ReportGenerator;
@@ -60,6 +61,7 @@ public class BagUpdateQuantityEditReview {
     private TestCase testCase;
     private List<TestCase> tcList = new ArrayList<TestCase>();
     private final String MODULE = "Flow-13 : BagUpdateQuantityEditReview";
+    private final String FLOW_ID = "FLOW_13";
 
     @Before
     public void setUp() throws Exception {
@@ -89,10 +91,10 @@ public class BagUpdateQuantityEditReview {
      */
     @Test
     public void testBagUpdateQuantityEditReview() throws Exception {
-
-        String FUNCTIONALITY = "1. Update product quantity from bag, 2. Edit Payment and edit Shipping from Order Review";
-        testCase = new TestCase("Flow-13", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+    	final String FUN_ID = "FUN_13";
+//        String FUNCTIONALITY = "1. Update product quantity from bag, 2. Edit Payment and edit Shipping from Order Review";
+//        testCase = new TestCase("Flow-13", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+    	testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy_HH:mm:ss");
         String timeStamp = sdf.format(Calendar.getInstance().getTime());
 
@@ -117,11 +119,11 @@ public class BagUpdateQuantityEditReview {
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
 
         try {
-            addToCart.addSpecificProductToCart(driver, prop, locator, user, tcList);
+            addToCart.addSpecificProductToCart(FLOW_ID, driver, prop, locator, user, tcList);
 
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h2.panel-title")));
 
-            testSummary.testBagSummary(driver, prop, bagLocator, user, map, tcList);
+            testSummary.testBagSummary(FLOW_ID, driver, prop, bagLocator, user, map, tcList);
             String merchTotalString = driver
                     .findElement(By.xpath(bagLocator.getProperty("summary.merchtotal.value").toString())).getText();
             String orderTotalString = driver
@@ -129,9 +131,9 @@ public class BagUpdateQuantityEditReview {
             double merchPrice = getTestHelper().getPrice(merchTotalString);
             double orderTotal = getTestHelper().getPrice(orderTotalString);
 
-            testCartItems.testUpdateItemQuantity(driver, prop, bagLocator, user, tcList);
+            testCartItems.testUpdateItemQuantity(FLOW_ID, driver, prop, bagLocator, user, tcList);
 
-            testSummary.testBagSummary(driver, prop, bagLocator, user, map, tcList);
+            testSummary.testBagSummary(FLOW_ID, driver, prop, bagLocator, user, map, tcList);
             merchTotalString = driver
                     .findElement(By.xpath(bagLocator.getProperty("summary.merchtotal.value").toString())).getText();
             orderTotalString = driver.findElement(By.xpath(bagLocator.getProperty("summary.total.value").toString()))
@@ -154,15 +156,15 @@ public class BagUpdateQuantityEditReview {
             actions.perform();
 
             // Login as a registered user at the checkout
-            testLogin.checkoutLogin(driver, data, user, tcList);
+            testLogin.checkoutLogin(FLOW_ID, driver, data, user, tcList);
 
             // Verify Review Order for express checkout
-            reviewOrder.verifyReviewOrder3(driver, prop, locator, user, map, tcList);
+            reviewOrder.verifyReviewOrder3(FLOW_ID, driver, prop, locator, user, map, tcList);
 
             TestOrderConfirmation testConf = new TestOrderConfirmation();
-            testConf.verifyOrderConfirmation(driver, prop, locator, user, tcList);
+            testConf.verifyOrderConfirmation(FLOW_ID, driver, prop, locator, user, tcList);
 
-            testCase.setStatus("PASS");
+            testCase.setStatus(TcConstants.PASS);
             tcList.add(testCase);
         } catch (Exception exp) {
             try {

@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.dao.TestCase;
 import com.tatcha.jscripts.dao.User;
 import com.tatcha.jscripts.helper.TatchaTestHelper;
@@ -40,13 +41,15 @@ public class ReviewOrder {
      * @param tcList
      * @throws Exception
      */
-    public void verifyReviewOrder1(WebDriver driver, Properties prop, Properties locator, User user,
+    public void verifyReviewOrder1(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             Map<String, Boolean> map, List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN verifyReviewOrder");
-        String FUNCTIONALITY = "Verify Review order and edit button of shipping and payment section";
-        testCase = new TestCase("TC-9.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_VRO1";
+//        String FUNCTIONALITY = "Verify Review order and edit button of shipping and payment section";
+//        testCase = new TestCase("TC-9.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
 
         wait.until(ExpectedConditions
@@ -55,15 +58,15 @@ public class ReviewOrder {
                 .visibilityOfElementLocated(By.xpath(locator.getProperty("checkout.step3.title").toString())));
 
         TestShippingSection testShipping = new TestShippingSection();
-        testShipping.testShippingSection(driver, prop, locator, user, map, tcList);
+        testShipping.testShippingSection(FLOW_ID, driver, prop, locator, user, map, tcList);
         TestPaymentSection testPayment = new TestPaymentSection();
-        testPayment.testPaymentSection(driver, prop, locator, user, map, tcList);
+        testPayment.testPaymentSection(FLOW_ID,driver, prop, locator, user, map, tcList);
         TestReviewOrder testReview = new TestReviewOrder();
-        testReview.testReviewOrder(driver, prop, locator, user, map, tcList);
+        testReview.testReviewOrder(FLOW_ID, driver, prop, locator, user, map, tcList);
         TestSummary testSummary = new TestSummary();
-        testSummary.testSummary(driver, prop, locator, user, map, tcList);
+        testSummary.testSummary(FLOW_ID, driver, prop, locator, user, map, tcList);
         TestItems testItem = new TestItems();
-        testItem.testItems(driver, prop, locator, user, map, tcList);
+        testItem.testItems(FLOW_ID, driver, prop, locator, user, map, tcList);
 
         // Click place order button
         By placeOrderButtonLocator = By.xpath(locator.getProperty("reviewOrder.placeOrder.button").toString());
@@ -71,7 +74,7 @@ public class ReviewOrder {
         if (placeOrderButtonElement.isEnabled()) {
             placeOrderButtonElement.click();
         }
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END verifyReviewOrder");
     }
@@ -87,13 +90,15 @@ public class ReviewOrder {
      * @param tcList
      * @throws Exception
      */
-    public void verifyReviewOrder2(WebDriver driver, Properties prop, Properties locator, User user,
+    public void verifyReviewOrder2(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             Map<String, Boolean> map, List<TestCase> tcList, boolean doPlaceOrder) throws Exception {
 
         logger.info("BEGIN verifyReviewOrder2");
-        String FUNCTIONALITY = "Verify Review order page";
-        testCase = new TestCase("TC-9.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_VRO2";
+//        String FUNCTIONALITY = "Verify Review order page";
+//        testCase = new TestCase("TC-9.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
 
         wait.until(ExpectedConditions
@@ -102,11 +107,11 @@ public class ReviewOrder {
                 .visibilityOfElementLocated(By.xpath(locator.getProperty("checkout.step3.title").toString())));
 
         TestShippingSection testShipping = new TestShippingSection();
-        testShipping.testReviewShipping(driver, prop, locator, user, map, tcList);
+        testShipping.testReviewShipping(FLOW_ID, driver, prop, locator, user, map, tcList);
         TestPaymentSection testPayment = new TestPaymentSection();
-        testPayment.testReviewPayment(driver, prop, locator, user, map, tcList);
+        testPayment.testReviewPayment(FLOW_ID, driver, prop, locator, user, map, tcList);
         TestReviewOrder testReview = new TestReviewOrder();
-        testReview.testReviewOrder(driver, prop, locator, user, map, tcList);
+        testReview.testReviewOrder(FLOW_ID, driver, prop, locator, user, map, tcList);
 
         if (doPlaceOrder) {
             // Click place order button
@@ -116,7 +121,7 @@ public class ReviewOrder {
                 placeOrderButtonElement.click();
             }
         }
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END verifyReviewOrder2");
     }
@@ -132,13 +137,15 @@ public class ReviewOrder {
      * @param tcList
      * @throws Exception
      */
-    public void verifyReviewOrder3(WebDriver driver, Properties prop, Properties locator, User user,
+    public void verifyReviewOrder3(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             Map<String, Boolean> map, List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN verifyReviewOrder3");
-        String FUNCTIONALITY = "Verify Review order and edit shipping and payment section separately";
-        testCase = new TestCase("TC-9.3", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_VRO3";
+//        String FUNCTIONALITY = "Verify Review order and edit shipping and payment section separately";
+//        testCase = new TestCase("TC-9.3", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
 
         wait.until(ExpectedConditions
@@ -147,15 +154,15 @@ public class ReviewOrder {
                 .visibilityOfElementLocated(By.xpath(locator.getProperty("checkout.step3.title").toString())));
 
         TestShippingSection testShipping = new TestShippingSection();
-        testShipping.testEditShipping(driver, prop, locator, user, map, tcList);
+        testShipping.testEditShipping(FLOW_ID, driver, prop, locator, user, map, tcList);
         TestPaymentSection testPayment = new TestPaymentSection();
-        testPayment.testEditPayment(driver, prop, locator, user, map, tcList);
+        testPayment.testEditPayment(FLOW_ID, driver, prop, locator, user, map, tcList);
         TestReviewOrder testReview = new TestReviewOrder();
-        testReview.testReviewOrder(driver, prop, locator, user, map, tcList);
+        testReview.testReviewOrder(FLOW_ID, driver, prop, locator, user, map, tcList);
         TestSummary testSummary = new TestSummary();
-        testSummary.testSummary(driver, prop, locator, user, map, tcList);
+        testSummary.testSummary(FLOW_ID, driver, prop, locator, user, map, tcList);
         TestItems testItem = new TestItems();
-        testItem.testItems(driver, prop, locator, user, map, tcList);
+        testItem.testItems(FLOW_ID, driver, prop, locator, user, map, tcList);
 
         // Click place order button
         By placeOrderButtonLocator = By.xpath(locator.getProperty("reviewOrder.placeOrder.button").toString());
@@ -163,7 +170,7 @@ public class ReviewOrder {
         if (placeOrderButtonElement.isEnabled()) {
             placeOrderButtonElement.click();
         }
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END verifyReviewOrder3");
     }
@@ -179,13 +186,15 @@ public class ReviewOrder {
      * @param tcList
      * @throws Exception
      */
-    public void verifyReviewOrder4(WebDriver driver, Properties prop, Properties locator, User user,
+    public void verifyReviewOrder4(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             Map<String, Boolean> map, List<TestCase> tcList) throws Exception {
-
+    	
         logger.info("BEGIN verifyReviewOrder4");
-        String FUNCTIONALITY = "Verify review order and edit shipping and payment";
-        testCase = new TestCase("TC-9.4", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_VRO4";      
+//        String FUNCTIONALITY = "Verify review order and edit shipping and payment";
+//        testCase = new TestCase("TC-9.4", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
 
         wait.until(ExpectedConditions
@@ -194,16 +203,16 @@ public class ReviewOrder {
                 .visibilityOfElementLocated(By.xpath(locator.getProperty("checkout.step3.title").toString())));
 
         TestShippingSection testShipping = new TestShippingSection();
-        testShipping.testEditShipping(driver, prop, locator, user, map, tcList);
+        testShipping.testEditShipping(FLOW_ID, driver, prop, locator, user, map, tcList);
         TestPaymentSection testPayment = new TestPaymentSection();
-        testPayment.testEditPaymentBilling(driver, prop, locator, user, map, tcList);
-        testPayment.testReviewPayment(driver, prop, locator, user, map, tcList);
+        testPayment.testEditPaymentBilling(FLOW_ID, driver, prop, locator, user, map, tcList);
+        testPayment.testReviewPayment(FLOW_ID, driver, prop, locator, user, map, tcList);
         TestReviewOrder testReview = new TestReviewOrder();
-        testReview.testReviewOrder(driver, prop, locator, user, map, tcList);
+        testReview.testReviewOrder(FLOW_ID, driver, prop, locator, user, map, tcList);
         TestSummary testSummary = new TestSummary();
-        testSummary.testSummary(driver, prop, locator, user, map, tcList);
+        testSummary.testSummary(FLOW_ID, driver, prop, locator, user, map, tcList);
         TestItems testItem = new TestItems();
-        testItem.testItems(driver, prop, locator, user, map, tcList);
+        testItem.testItems(FLOW_ID, driver, prop, locator, user, map, tcList);
 
         // Click place order button
         By placeOrderButtonLocator = By.xpath(locator.getProperty("reviewOrder.placeOrder.button").toString());
@@ -211,7 +220,7 @@ public class ReviewOrder {
         if (placeOrderButtonElement.isEnabled()) {
             placeOrderButtonElement.click();
         }
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END verifyReviewOrder4");
     }
@@ -227,13 +236,15 @@ public class ReviewOrder {
      * @param tcList
      * @throws Exception
      */
-    public void verifyEGiftReviewOrder(WebDriver driver, Properties prop, Properties locator, User user,
+    public void verifyEGiftReviewOrder(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             Map<String, Boolean> map, List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN verifyEGiftReviewOrder");
-        String FUNCTIONALITY = "Verify Review order when EGift Certificate only in cart";
-        testCase = new TestCase("TC-9.5", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_VERO";
+//        String FUNCTIONALITY = "Verify Review order when EGift Certificate only in cart";
+//        testCase = new TestCase("TC-9.5", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        		
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
 
         wait.until(ExpectedConditions
@@ -242,11 +253,11 @@ public class ReviewOrder {
                 .visibilityOfElementLocated(By.xpath("//*[@id='ext-gen44']/body/main/div[1]/div/ul/li[2]/a")));
 
         TestPaymentSection testPayment = new TestPaymentSection();
-        testPayment.testReviewEGiftPayment(driver, prop, locator, user, map, tcList);
+        testPayment.testReviewEGiftPayment(FLOW_ID, driver, prop, locator, user, map, tcList);
         TestSummary testSummary = new TestSummary();
-        testSummary.testEgiftSummary(driver, prop, locator, user, map, tcList);
+        testSummary.testEgiftSummary(FLOW_ID, driver, prop, locator, user, map, tcList);
         TestItems testItem = new TestItems();
-        testItem.testEgiftItem(driver, prop, locator, user, map, tcList);
+        testItem.testEgiftItem(FLOW_ID, driver, prop, locator, user, map, tcList);
 
         // Click place order button
         By placeOrderButtonLocator = By.xpath(locator.getProperty("reviewOrder.placeOrder.button").toString());
@@ -254,7 +265,7 @@ public class ReviewOrder {
         if (placeOrderButtonElement.isEnabled()) {
             placeOrderButtonElement.click();
         }
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END verifyEGiftReviewOrder");
     }
@@ -272,13 +283,15 @@ public class ReviewOrder {
      * @param tcList
      * @throws Exception
      */
-    public void verifyGuestReviewOrder(WebDriver driver, Properties prop, Properties locator, User user,
+    public void verifyGuestReviewOrder(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             Map<String, Boolean> map, Properties data, List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN verifyGuestReviewOrder");
-        String FUNCTIONALITY = "Verify Review Order for guest checkout";
-        testCase = new TestCase("TC-9.6", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_VGRO";
+//        String FUNCTIONALITY = "Verify Review Order for guest checkout";
+//        testCase = new TestCase("TC-9.6", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        		
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
 
         wait.until(ExpectedConditions
@@ -287,13 +300,13 @@ public class ReviewOrder {
                 .visibilityOfElementLocated(By.xpath(locator.getProperty("checkout.step3.title").toString())));
 
         TestShippingSection testShipping = new TestShippingSection();
-        testShipping.testReviewShipping(driver, prop, locator, user, map, tcList);
+        testShipping.testReviewShipping(FLOW_ID, driver, prop, locator, user, map, tcList);
         TestPaymentSection testPayment = new TestPaymentSection();
-        testPayment.testReviewPayment(driver, prop, locator, user, map, tcList);
+        testPayment.testReviewPayment(FLOW_ID, driver, prop, locator, user, map, tcList);
         TestCreateAccount testCreateAccnt = new TestCreateAccount();
-        testCreateAccnt.testCreateAccount(driver, prop, locator, user, map, data, tcList);
+        testCreateAccnt.testCreateAccount(FLOW_ID, driver, prop, locator, user, map, data, tcList);
         TestReviewOrder testReview = new TestReviewOrder();
-        testReview.testGuestReviewOrder(driver, prop, locator, user, map, data, tcList);
+        testReview.testGuestReviewOrder(FLOW_ID, driver, prop, locator, user, map, data, tcList);
 
         // Click place order button
         By placeOrderButtonLocator = By.xpath(locator.getProperty("reviewOrder.placeOrder.button").toString());
@@ -301,7 +314,7 @@ public class ReviewOrder {
         if (placeOrderButtonElement.isEnabled()) {
             placeOrderButtonElement.click();
         }
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END verifyGuestReviewOrder");
     }

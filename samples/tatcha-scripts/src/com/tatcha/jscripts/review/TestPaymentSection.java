@@ -13,6 +13,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.dao.TestCase;
 import com.tatcha.jscripts.dao.User;
 import com.tatcha.jscripts.helper.TatchaTestHelper;
@@ -43,13 +44,15 @@ public class TestPaymentSection {
      * @param tcList
      * @throws Exception
      */
-    public void testPaymentSection(WebDriver driver, Properties prop, Properties locator, User user,
+    public void testPaymentSection(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             Map<String, Boolean> map, List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN testPaymentSection");
-        String FUNCTIONALITY = "Verify the edit button of payment section in order review page";
-        testCase = new TestCase("TC-11.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_PY";
+//        String FUNCTIONALITY = "Verify the edit button of payment section in order review page";
+//        testCase = new TestCase("TC-11.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
         Actions actions = new Actions(driver);
         WebElement editButtonElement = null;
@@ -113,7 +116,7 @@ public class TestPaymentSection {
         wait.until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath(locator.getProperty("reviewOrder.title").toString())));
 
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testPaymentSection");
     }
@@ -129,13 +132,15 @@ public class TestPaymentSection {
      * @param tcList
      * @throws Exception
      */
-    public void testReviewEGiftPayment(WebDriver driver, Properties prop, Properties locator, User user,
+    public void testReviewEGiftPayment(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             Map<String, Boolean> map, List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN testReviewEGiftPayment");
-        String FUNCTIONALITY = "Verify the payment section in order review page when egift in cart";
-        testCase = new TestCase("TC-11.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_REP";
+//        String FUNCTIONALITY = "Verify the payment section in order review page when egift in cart";
+//        testCase = new TestCase("TC-11.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         getTestHelper().logAssertion(getClass().getSimpleName(), "PAYMENT",
                 driver.findElement(By
                         .xpath("//*[@id='ext-gen44']/body/main/div[1]/div/div/div[1]/form/div[1]/div[2]/div[2]/div[1]/div[1]/h4"))
@@ -148,7 +153,7 @@ public class TestPaymentSection {
                         .xpath("//*[@id='ext-gen44']/body/main/div[1]/div/div/div[1]/form/div[1]/div[2]/div[2]/div[2]/div/div[1]/h5[1]"))
                         .getText());
 
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testReviewEGiftPayment");
     }
@@ -164,13 +169,15 @@ public class TestPaymentSection {
      * @param map
      * @param tcList
      */
-    public void testEditPayment(WebDriver driver, Properties prop, Properties locator, User user,
+    public void testEditPayment(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             Map<String, Boolean> map, List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN testPaymentSection");
-        String FUNCTIONALITY = "Edit payment details from order review page";
-        testCase = new TestCase("TC-11.3", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_EPY";
+//        String FUNCTIONALITY = "Edit payment details from order review page";
+//        testCase = new TestCase("TC-11.3", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
         WebDriverWait wait3 = (WebDriverWait) new WebDriverWait(driver, 3);
         Actions actions = new Actions(driver);
@@ -226,8 +233,8 @@ public class TestPaymentSection {
             logger.info("Loading Gif image cannot be located");
         }
 
-        testCard.testSelectCreditCard(driver, prop, locator, user, tcList);
-        testBilling.testBillingAddress(driver, prop, locator, user, false, true, tcList);
+        testCard.testSelectCreditCard(FLOW_ID, driver, prop, locator, user, tcList);
+        testBilling.testBillingAddress(FLOW_ID, driver, prop, locator, user, false, true, tcList);
 
         try {
             // Wait for gif image(loading) to become stale
@@ -248,7 +255,7 @@ public class TestPaymentSection {
         wait.until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath(locator.getProperty("reviewOrder.title").toString())));
 
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testPaymentSection");
     }
@@ -265,13 +272,15 @@ public class TestPaymentSection {
      * @param tcList
      * @throws Exception
      */
-    public void testEditPaymentBilling(WebDriver driver, Properties prop, Properties locator, User user,
+    public void testEditPaymentBilling(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             Map<String, Boolean> map, List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN testEditPaymentBilling");
-        String FUNCTIONALITY = "Modify payment details";
-        testCase = new TestCase("TC-11.4", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_EPB";
+//        String FUNCTIONALITY = "Modify payment details";
+//        testCase = new TestCase("TC-11.4", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
         WebDriverWait wait3 = (WebDriverWait) new WebDriverWait(driver, 3);
 
@@ -287,8 +296,8 @@ public class TestPaymentSection {
             logger.info("Loading Gif image cannot be located");
         }
 
-        testCard.testSelectCreditCard(driver, prop, locator, user, tcList);
-        testBilling.testBillingAddress(driver, prop, locator, user, false, true, tcList);
+        testCard.testSelectCreditCard(FLOW_ID, driver, prop, locator, user, tcList);
+        testBilling.testBillingAddress(FLOW_ID, driver, prop, locator, user, false, true, tcList);
 
         try {
             // Wait for gif image(loading) to become stale
@@ -309,7 +318,7 @@ public class TestPaymentSection {
         wait.until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath(locator.getProperty("reviewOrder.title").toString())));
 
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testEditPaymentBilling");
     }
@@ -325,14 +334,16 @@ public class TestPaymentSection {
      * @param tcList
      * @throws Exception
      */
-    public void testReviewPayment(WebDriver driver, Properties prop, Properties locator, User user,
+    public void testReviewPayment(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             Map<String, Boolean> map, List<TestCase> tcList) throws Exception {
 
 
         logger.info("BEGIN testReviewPayment");
-        String FUNCTIONALITY = "Review payment details of Order Review page";
-        testCase = new TestCase("TC-11.5", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_RPY";
+//        String FUNCTIONALITY = "Review payment details of Order Review page";
+//        testCase = new TestCase("TC-11.5", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         if (map.get("isLogged") && map.get("isUSAddress") && !map.get("isGiftCard") && map.get("isCreditCard")) {
             logger.info("Condition 1");
             getTestHelper().logAssertion(getClass().getSimpleName(), "PAYMENT", driver
@@ -402,7 +413,7 @@ public class TestPaymentSection {
                             .getText());
         }
 
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testReviewPayment");
     }

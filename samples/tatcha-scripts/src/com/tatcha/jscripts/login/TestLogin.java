@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.bag.TestCartItems;
 import com.tatcha.jscripts.dao.TestCase;
 import com.tatcha.jscripts.dao.User;
@@ -38,12 +39,14 @@ public class TestLogin {
      * @param tcList
      * @throws Exception
      */
-    public void checkoutLogin(WebDriver driver, Properties data, User user, List<TestCase> tcList) throws Exception {
-
+    public void checkoutLogin(String FLOW_ID, WebDriver driver, Properties data, User user, List<TestCase> tcList) throws Exception {
+    	final String FUN_ID = "FUN_CL";
+    	
         logger.info("BEGIN checkoutLogin");
-        String FUNCTIONALITY = "Login in the checkout flow";
-        testCase = new TestCase("TC-3.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+//        String FUNCTIONALITY = "Login in the checkout flow";
+//        testCase = new TestCase("TC-3.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
 
         wait.until(ExpectedConditions
@@ -76,7 +79,7 @@ public class TestLogin {
         user.setPassword(data.getProperty("password").toString());
         // Click continue
         driver.findElement(By.xpath("//*[@id='dwfrm_login']/div[3]/div[2]/div/button")).click();
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END checkoutLogin");
     }
@@ -91,12 +94,14 @@ public class TestLogin {
      * @param tcList
      * @throws Exception
      */
-    public void checkoutGuest(WebDriver driver, Properties data, User user, List<TestCase> tcList) throws Exception {
+    public void checkoutGuest(String FLOW_ID, WebDriver driver, Properties data, User user, List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN checkoutGuest");
-        String FUNCTIONALITY = "Checkout as a guest";
-        testCase = new TestCase("TC-3.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_CG";
+//        String FUNCTIONALITY = "Checkout as a guest";
+//        testCase = new TestCase("TC-3.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        		
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
 
         wait.until(ExpectedConditions
@@ -112,7 +117,7 @@ public class TestLogin {
 
         // Wait until page refreshed
         wait.until(ExpectedConditions.refreshed(ExpectedConditions.stalenessOf(emailIdElement)));
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END checkoutGuest");
     }
@@ -126,12 +131,14 @@ public class TestLogin {
      * @param user
      * @throws Exception
      */
-    public void login(WebDriver driver, Properties prop, Properties locator, User user, List<TestCase> tcList) throws Exception {
+    public void login(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user, List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN login");
-        String FUNCTIONALITY = "Login to the account";
-        testCase = new TestCase("TC-3.3", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_L";
+//        String FUNCTIONALITY = "Login to the account";
+//        testCase = new TestCase("TC-3.3", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
         // Get test username and password
         String username = prop.get("email").toString();
@@ -179,7 +186,7 @@ public class TestLogin {
             // If login not successful assert error message
             getTestHelper().logAssertion(getClass().getSimpleName(), validationMessage, alertMessageElement.getText());
         }
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END login");
     }

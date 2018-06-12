@@ -23,6 +23,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.bag.TestAddToCart;
 import com.tatcha.jscripts.commons.ReportGenerator;
 import com.tatcha.jscripts.dao.TestCase;
@@ -58,7 +59,8 @@ public class ProductGiftCertificateCheckout {
     private TestCase testCase;
     private List<TestCase> tcList = new ArrayList<TestCase>();
     private final String MODULE = "Flow-16 : ProductGiftCertificateCheckout";
-
+    private final String FLOW_ID = "FLOW_16";
+    
     @Before
     public void setUp() throws Exception {
         prop.load(new FileInputStream(getClass().getResource("/tatcha.properties").getFile()));
@@ -86,10 +88,11 @@ public class ProductGiftCertificateCheckout {
      */
     @Test
     public void testProductGiftCertificateCheckout() throws Exception {
-
-        String FUNCTIONALITY = "Login checkout egift and a product";
-        testCase = new TestCase("Flow-16", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+    	final String  FUN_ID = "FUN_16";
+//        String FUNCTIONALITY = "Login checkout egift and a product";
+//        testCase = new TestCase("Flow-16", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy_HH:mm:ss");
         String timeStamp = sdf.format(Calendar.getInstance().getTime());
         logger.info(getClass() + timeStamp);
@@ -114,13 +117,13 @@ public class ProductGiftCertificateCheckout {
 
         try {
 
-            addToCart.addSpecificProductToCart(driver, data, locator, user, tcList);
+            addToCart.addSpecificProductToCart(FLOW_ID, driver, data, locator, user, tcList);
 
             WebElement element = driver.findElement(By.linkText("GIFTS"));
             action.moveToElement(element).build().perform();
             driver.findElement(By.linkText("E-Gift Card")).click();
 
-            addToCart.addGiftCertificateToCart(driver, giftLocator, user, tcList);
+            addToCart.addGiftCertificateToCart(FLOW_ID, driver, giftLocator, user, tcList);
 
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h2.panel-title")));
             wait.until(ExpectedConditions
@@ -134,12 +137,12 @@ public class ProductGiftCertificateCheckout {
             actions.perform();
 
             // Login as a registered user at the checkout
-            testLogin.checkoutLogin(driver, data, user, tcList);
+            testLogin.checkoutLogin(FLOW_ID, driver, data, user, tcList);
 
             // Verify Review Order for express checkout
-            reviewOrder.verifyReviewOrder2(driver, prop, locator, user, map, tcList, false);
+            reviewOrder.verifyReviewOrder2(FLOW_ID, driver, prop, locator, user, map, tcList, false);
 
-            testSummary.testSummary(driver, prop, locator, user, map, tcList);
+            testSummary.testSummary(FLOW_ID, driver, prop, locator, user, map, tcList);
 
             // Click place order button
             By placeOrderButtonLocator = By.xpath(locator.getProperty("reviewOrder.placeOrder.button").toString());
@@ -148,9 +151,9 @@ public class ProductGiftCertificateCheckout {
                 placeOrderButtonElement.click();
             }
             TestOrderConfirmation testConf = new TestOrderConfirmation();
-            testConf.verifyOrderConfirmation(driver, prop, locator, user, tcList);
+            testConf.verifyOrderConfirmation(FLOW_ID, driver, prop, locator, user, tcList);
 
-            testCase.setStatus("PASS");
+            testCase.setStatus(TcConstants.PASS);
             tcList.add(testCase);
         } catch (Exception exp) {
             try {

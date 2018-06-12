@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.dao.TestCase;
 import com.tatcha.jscripts.helper.TatchaTestHelper;
 
@@ -39,12 +40,16 @@ public class AddressBook {
      * @param tcList
      * @throws Exception
      */
-    public void verifyAddressBook(WebDriver driver, Properties prop, Properties locator, List<TestCase> tcList)
+    public void verifyAddressBook(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, List<TestCase> tcList)
             throws Exception {
-
+    
+    	
         logger.info("BEGIN verifyAddressBook");
-        String FUNCTIONALITY = "Verify address book of my account";
-        testCase = new TestCase("TC-4.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+    	final String FUN_ID = "FUN_VAB";
+//        String FUNCTIONALITY = "Verify address book of my account";
+//        testCase = new TestCase("TC-4.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+    	
         if (getTestHelper().isLoggedIn(driver)) {
             driver.findElement(By.xpath(locator.getProperty("account.address").toString())).click();
 
@@ -64,23 +69,23 @@ public class AddressBook {
 
             // Add Address to address book
             driver.findElement(By.xpath(locator.getProperty("address.add.button").toString())).click();
-            addAddress(driver, prop, locator, false, tcList);
+            addAddress(FLOW_ID, driver, prop, locator, false, tcList);
             logger.info("Address Added");
 
             // Add Address to address book, which will become the default
             // address
             driver.findElement(By.xpath(locator.getProperty("address.add.button").toString())).click();
-            addAddress(driver, prop, locator, false, tcList);
+            addAddress(FLOW_ID, driver, prop, locator, false, tcList);
             logger.info("Address Added");
 
             // Edit default address
             driver.findElement(By.xpath(locator.getProperty("address.default.edit").toString())).click();
-            addAddress(driver, prop, locator, true, tcList);
+            addAddress(FLOW_ID, driver, prop, locator, true, tcList);
             logger.info("Address Edited");
 
             // Edit an address in address book
             driver.findElement(By.xpath(locator.getProperty("address.edit").toString())).click();
-            addAddress(driver, prop, locator, false, tcList);
+            addAddress(FLOW_ID, driver, prop, locator, false, tcList);
             logger.info("Address Edited");
 
             // Make an address the default address
@@ -97,10 +102,10 @@ public class AddressBook {
             logger.info("Address set as default");
 
             // Remove default address from address book
-            removeAddress(driver, prop, locator, tcList);
+            removeAddress(FLOW_ID, driver, prop, locator, tcList);
             logger.info("Address removed");
         }
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END verifyAddressBook");
     }
@@ -115,12 +120,15 @@ public class AddressBook {
      * @param tcList
      * @throws Exception
      */
-    public void addAddress(WebDriver driver, Properties prop, Properties locator, boolean isEditDefaultAddress,
+    public void addAddress(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, boolean isEditDefaultAddress,
             List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN addAddress");
-        String FUNCTIONALITY = "Add address to address book";
-        testCase = new TestCase("TC-4.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        final String FUN_ID = "FUN_AAD";
+//        String FUNCTIONALITY = "Add address to address book";
+//        testCase = new TestCase("TC-4.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         boolean isAddAddress = false;
         WebElement titleElement = driver
                 .findElement(By.xpath("//*[@id='ext-gen44']/body/main/div/div/div/div/div/div/div[1]/h4"));
@@ -129,13 +137,13 @@ public class AddressBook {
             isAddAddress = true;
         }
 
-        populateAddressBook(driver, prop, locator, isEditDefaultAddress, isAddAddress, tcList);
+        populateAddressBook(FLOW_ID, driver, prop, locator, isEditDefaultAddress, isAddAddress, tcList);
 
         // Save address
         WebElement addAddressSaveButtonElement = driver
                 .findElement(By.xpath(locator.getProperty("addAddr.save.button").toString()));
         addAddressSaveButtonElement.click();
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END addAddress");
     }
@@ -151,13 +159,17 @@ public class AddressBook {
      * @param tcList
      * @throws Exception
      */
-    public String populateAddressBook(WebDriver driver, Properties prop, Properties locator,
+    public String populateAddressBook(String FLOW_ID, WebDriver driver, Properties prop, Properties locator,
             boolean isEditDefaultAddress, boolean isAddAddress, List<TestCase> tcList) throws Exception {
+    	
         logger.info("BEGIN populateAddressBook");
         String addressId = null;
-
-        String FUNCTIONALITY = "Populate the address fields";
-        testCase = new TestCase("TC-4.3", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        
+        final String FUN_ID = "FUN_PAB";
+//        String FUNCTIONALITY = "Populate the address fields";
+//        testCase = new TestCase("TC-4.3", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 5);
 
         // Get all the web elements in the address book
@@ -266,7 +278,7 @@ public class AddressBook {
             addAddrCityElement.sendKeys(prop.getProperty("addressbook.city").toString());
         }
         logger.info("Id of the Address added : " + addressId);
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END populateAddressBook");
         return addressId;
@@ -281,12 +293,15 @@ public class AddressBook {
      * @param tcList
      * @throws Exception
      */
-    public void removeAddress(WebDriver driver, Properties prop, Properties locator, List<TestCase> tcList)
+    public void removeAddress(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, List<TestCase> tcList)
             throws Exception {
 
         logger.info("BEGIN removeAddress");
-        String FUNCTIONALITY = "Remove address from address book";
-        testCase = new TestCase("TC-4.4", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        final String FUN_ID = "FUN_RAD";
+//        String FUNCTIONALITY = "Remove address from address book";
+//        testCase = new TestCase("TC-4.4", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 5);
         WebElement removeIconElement = driver
                 .findElement(By.xpath(locator.getProperty("address.remove").toString()));
@@ -308,7 +323,7 @@ public class AddressBook {
         // Confirm delete address
         confirmDeleteElement.click();
         wait.until(ExpectedConditions.invisibilityOf(confirmModalDialogeTitleElement));
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END removeAddress");
     }

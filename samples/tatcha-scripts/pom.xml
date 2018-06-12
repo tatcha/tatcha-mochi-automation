@@ -57,42 +57,56 @@
 
 					<includes>
 
-						<include>com/tatcha/jscripts/testflows/EditReviewUSAddress.java</include>
-						<include>com/tatcha/jscripts/product/TestPDP.java</include>
-						
-						<!-- 19 Test Flows
-						<include>com/tatcha/jscripts/testflows/BagAutoDelivery.java</include>
-						<include>com/tatcha/jscripts/testflows/BagUpdateQuantityEditReview.java</include>
-						<include>com/tatcha/jscripts/testflows/EditReviewUSAddress.java</include>
-						<include>com/tatcha/jscripts/testflows/GiftCertificateCheckout.java</include>
-						<include>com/tatcha/jscripts/testflows/GuestCheckoutInternationalAddress.java</include>
-						<include>com/tatcha/jscripts/testflows/GuestCheckoutInternationalAddressRegister.java</include>
-						<include>com/tatcha/jscripts/testflows/GuestCheckoutUSAddress.java</include>
-						<include>com/tatcha/jscripts/testflows/GuestCheckoutUSAddressRegister.java</include>
-						<include>com/tatcha/jscripts/testflows/LoginCheckoutFirstAddressInternational.java</include>
-						<include>com/tatcha/jscripts/testflows/LoginCheckoutFirstAddressUS.java</include>
-						<include>com/tatcha/jscripts/testflows/LoginCheckoutNewAddressInternational.java</include>
-						<include>com/tatcha/jscripts/testflows/LoginCheckoutNewAddressUS.java</include>
-						<include>com/tatcha/jscripts/testflows/LoginCheckoutSelectAddressInternational.java</include>
-						<include>com/tatcha/jscripts/testflows/LoginCheckoutSelectAddressUS.java</include>
-						<include>com/tatcha/jscripts/testflows/LoginExpressCheckoutDefaultInternational.java</include>
-						<include>com/tatcha/jscripts/testflows/LoginExpressCheckoutDefaultUS.java</include>
-						<include>com/tatcha/jscripts/testflows/LoginMyAccount.java</include>
-						<include>com/tatcha/jscripts/testflows/ProductGiftCertificateCheckout.java</include>
-						<include>com/tatcha/jscripts/testflows/ShoppingBagSamplesExpressCheckout.java</include>
- -->
-						<!-- PDP & PLP 
-						<include>com/tatcha/jscripts/testflows/*.java</include>
+						<!-- PDP & PLP -->
 						<include>com/tatcha/jscripts/product/TestPDP.java</include>
 						<include>com/tatcha/jscripts/product/TestPLP.java</include>
--->
-						<!-- Header & Footer 
-						<include>com/tatcha/jscripts/navigation/*.java</include>
+						<!-- Header & Footer -->
 						<include>com/tatcha/jscripts/navigation/TestHeader.java</include>
 						<include>com/tatcha/jscripts/navigation/TestFooter.java</include>
 
--->
+						<!-- 19 Test Flows -->
 
+						<!-- FLOW_19 -->
+						<include>com/tatcha/jscripts/testflows/BagAutoDelivery.java</include>
+						<!-- FLOW_18 -->
+						<include>com/tatcha/jscripts/testflows/LoginMyAccount.java</include>
+						<!-- FLOW_17 -->
+						<include>com/tatcha/jscripts/testflows/ShoppingBagSamplesExpressCheckout.java</include>
+						<!-- FLOW_16 -->
+						<include>com/tatcha/jscripts/testflows/ProductGiftCertificateCheckout.java</include>
+
+						<!-- FLOW_15 -->
+						<include>com/tatcha/jscripts/testflows/GiftCertificateCheckout.java</include>
+						<!-- FLOW_14 -->
+						<include>com/tatcha/jscripts/testflows/EditReviewUSAddress.java</include>
+						<!-- FLOW_13 -->
+						<include>com/tatcha/jscripts/testflows/BagUpdateQuantityEditReview.java</include>
+						<!-- FLOW_12 -->
+						<include>com/tatcha/jscripts/testflows/GuestCheckoutInternationalAddressRegister.java</include>
+						<!-- FLOW_11 -->
+						<include>com/tatcha/jscripts/testflows/GuestCheckoutUSAddressRegister.java</include>
+
+						<!-- FLOW_10 -->
+						<include>com/tatcha/jscripts/testflows/GuestCheckoutInternationalAddress.java</include>
+						<!-- FLOW_9 -->
+						<include>com/tatcha/jscripts/testflows/GuestCheckoutUSAddress.java</include>
+						<!-- FLOW_8 -->
+						<include>com/tatcha/jscripts/testflows/LoginCheckoutSelectAddressInternational.java</include>
+						<!-- FLOW_7 -->
+						<include>com/tatcha/jscripts/testflows/LoginCheckoutNewAddressInternational.java</include>
+						<!-- FLOW_6 -->
+						<include>com/tatcha/jscripts/testflows/LoginCheckoutFirstAddressInternational.java</include>
+
+						<!-- FLOW_5 -->
+						<include>com/tatcha/jscripts/testflows/LoginCheckoutSelectAddressUS.java</include>
+						<!-- FLOW_4 -->
+						<include>com/tatcha/jscripts/testflows/LoginCheckoutNewAddressUS.java</include>
+						<!-- FLOW_3 -->
+						<include>com/tatcha/jscripts/testflows/LoginCheckoutFirstAddressUS.java</include>
+						<!-- FLOW_2 -->
+						<include>com/tatcha/jscripts/testflows/LoginExpressCheckoutDefaultInternational.java</include>
+						<!-- FLOW_1 -->
+						<include>com/tatcha/jscripts/testflows/LoginExpressCheckoutDefaultUS.java</include>
 
 
 					</includes>
@@ -113,11 +127,6 @@
 						<!-- Products: SILKCANVAS PCOIL PCOIL.TRAVEL PINKSTARTER.NORMDRY REDLIP 
 							DPCLEANSE WATERCREAM -->
 
-						<!-- <work.env>staging</work.env> <base.url>http://staging-na01-tatcha.demandware.net/s/tatcha/home?lang=default</base.url> 
-							<work.env>demo</work.env> <base.url>http://demo-na01-tatcha.demandware.net/on/demandware.store/Sites-tatcha-Site</base.url> 
-							<work.env>prod</work.env> <base.url>http://production-na01-tatcha.demandware.net/s/tatcha/home?lang=default</base.url> 
-							<work.env>prev</work.env> <base.url>https://preview.tatcha.net/</base.url> 
-							<work.env>live</work.env> <base.url>http://www.tatcha.com/</base.url> -->
 					</systemPropertyVariables>
 				</configuration>
 			</plugin>

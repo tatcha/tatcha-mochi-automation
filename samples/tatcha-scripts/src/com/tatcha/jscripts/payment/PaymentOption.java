@@ -12,6 +12,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.dao.TestCase;
 import com.tatcha.jscripts.dao.User;
 import com.tatcha.jscripts.helper.TatchaTestHelper;
@@ -39,18 +40,21 @@ public class PaymentOption {
      * @param tcList
      * @throws Exception
      */
-    public void verifyPaymentOption(WebDriver driver, Properties prop, Properties locator, User user,
+    public void verifyPaymentOption(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             Map<String, Boolean> map, List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN verifyPaymentOption");
-        String FUNCTIONALITY = "Verify Payment option by selecting Credit card";
-        testCase = new TestCase("TC-5.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        final String FUN_ID = "FUN_VPO";
+//        String FUNCTIONALITY = "Verify Payment option by selecting Credit card";
+//        testCase = new TestCase("TC-5.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        		
         Actions actions = new Actions(driver);
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
         WebElement continueButtonElement = null;
 
         TestCreditCard testcredit = new TestCreditCard();
-        testcredit.testSelectCreditCard(driver, prop, locator, user, tcList);
+        testcredit.testSelectCreditCard(FLOW_ID, driver, prop, locator, user, tcList);
 
         wait.until(ExpectedConditions
                 .elementToBeClickable(By.xpath(locator.getProperty("payment.continue.button").toString())));
@@ -59,7 +63,7 @@ public class PaymentOption {
         actions.moveToElement(continueButtonElement).click(continueButtonElement);
         actions.perform();
 
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END verifyPaymentOption");
     }
@@ -75,18 +79,21 @@ public class PaymentOption {
      * @param tcList
      * @throws Exception
      */
-    public void verifyPaymentOption2(WebDriver driver, Properties prop, Properties locator, User user,
+    public void verifyPaymentOption2(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             Map<String, Boolean> map, List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN verifyPaymentOption2");
-        String FUNCTIONALITY = "Verify payment option by adding a gift card";
-        testCase = new TestCase("TC-2.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        final String FUN_ID = "FUN_VPO2";
+//        String FUNCTIONALITY = "Verify payment option by adding a gift card";
+//        testCase = new TestCase("TC-2.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         Actions actions = new Actions(driver);
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
         WebElement continueButtonElement = null;
 
         TestGiftCard testgift = new TestGiftCard();
-        testgift.testAddGiftCard(driver, prop, locator, user, false, tcList);
+        testgift.testAddGiftCard(FLOW_ID, driver, prop, locator, user, false, tcList);
 
         wait.until(ExpectedConditions
                 .elementToBeClickable(By.xpath(locator.getProperty("payment.continue.button").toString())));
@@ -95,7 +102,7 @@ public class PaymentOption {
         actions.moveToElement(continueButtonElement).click(continueButtonElement);
         actions.perform();
 
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END verifyPaymentOption2");
     }

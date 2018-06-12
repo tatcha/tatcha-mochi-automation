@@ -22,6 +22,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.bag.TestAddToCart;
 import com.tatcha.jscripts.commons.TestMethods;
 import com.tatcha.jscripts.confirmation.TestOrderConfirmation;
@@ -37,7 +38,7 @@ import com.tatcha.jscripts.shipping.ShippingAddress;
 import com.tatcha.utils.BrowserDriver;
 
 /**
- * Flow : Add to cart - Login in Checkout page - Select an international address
+ * Flow 8 : Add to cart - Login in Checkout page - Select an international address
  * - Add Gift card - Place order
  * 
  * @author Reshma
@@ -58,7 +59,8 @@ public class LoginCheckoutSelectAddressInternational {
     private TestCase testCase;
     private List<TestCase> tcList = new ArrayList<TestCase>();
     private final String MODULE = "Flow-8 : LoginCheckoutSelectAddressInternational";
-
+    private final String FLOW_ID = "FLOW_8"; 
+    		
     @Before
     public void setUp() throws Exception {
         prop.load(new FileInputStream(getClass().getResource("/tatcha.properties").getFile()));
@@ -84,10 +86,11 @@ public class LoginCheckoutSelectAddressInternational {
      */
     @Test
     public void testLoginCheckoutSelectAddressInternational() throws Exception {
-
-        String FUNCTIONALITY = "Checkout as logged in user and selecting an existing address(International)";
-        testCase = new TestCase("Flow-8", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+    	final String FUN_ID = "FUN_8";
+//        String FUNCTIONALITY = "Checkout as logged in user and selecting an existing address(International)";
+//        testCase = new TestCase("Flow-8", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy_HH:mm:ss");
         String timeStamp = sdf.format(Calendar.getInstance().getTime());
         logger.info(getClass() + timeStamp);
@@ -109,7 +112,7 @@ public class LoginCheckoutSelectAddressInternational {
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
 
         try {
-            addToCart.addSpecificProductToCart(driver, prop, locator, user, tcList);
+            addToCart.addSpecificProductToCart(FLOW_ID, driver, prop, locator, user, tcList);
 
             // wait till shopping bag title is visible and checkout button is
             // clickable
@@ -125,21 +128,21 @@ public class LoginCheckoutSelectAddressInternational {
             actions.perform();
 
             // Login as a registered user at the checkout
-            testLogin.checkoutLogin(driver, data, user, tcList);
+            testLogin.checkoutLogin(FLOW_ID, driver, data, user, tcList);
 
             // Verify shipping address page
-            shipping.verifyShippingAddress3(driver, prop, locator, user, map, tcList);
+            shipping.verifyShippingAddress3(FLOW_ID, driver, prop, locator, user, map, tcList);
 
             // Verify payment page
-            payment.verifyPaymentOption2(driver, prop, locator, user, map, tcList);
+            payment.verifyPaymentOption2(FLOW_ID, driver, prop, locator, user, map, tcList);
 
             // Verify Review Order
-            reviewOrder.verifyReviewOrder2(driver, prop, locator, user, map, tcList, true);
+            reviewOrder.verifyReviewOrder2(FLOW_ID, driver, prop, locator, user, map, tcList, true);
 
             TestOrderConfirmation testConf = new TestOrderConfirmation();
-            testConf.verifyOrderConfirmation(driver, prop, locator, user, tcList);
+            testConf.verifyOrderConfirmation(FLOW_ID, driver, prop, locator, user, tcList);
 
-            testCase.setStatus("PASS");
+            testCase.setStatus(TcConstants.PASS);
             tcList.add(testCase);
         } catch (Exception exp) {
             try {

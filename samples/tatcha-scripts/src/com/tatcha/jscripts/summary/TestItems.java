@@ -17,6 +17,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.tatcha.jscripts.dao.TestCase;
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.dao.Product;
 import com.tatcha.jscripts.dao.User;
 import com.tatcha.jscripts.helper.TatchaTestHelper;
@@ -42,13 +43,15 @@ public class TestItems {
      * @param tcList
      * @throws Exception
      */
-    public void testItems(WebDriver driver, Properties prop, Properties locator, User user, Map<String, Boolean> map,
+    public void testItems(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user, Map<String, Boolean> map,
             List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN testItems");
-        String FUNCTIONALITY = "verify items section of summary";
-        testCase = new TestCase("TC-17.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_IT";
+//        String FUNCTIONALITY = "verify items section of summary";
+//        testCase = new TestCase("TC-17.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = new WebDriverWait(driver, 10);
         int itemsInCart = getTestHelper().getItemCountInCart(user);
 
@@ -92,7 +95,7 @@ public class TestItems {
             getTestHelper().logAssertion(getClass().getSimpleName(), priceQtyString, priceQtyElement.getText());
         }
 
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testItems");
     }
@@ -108,14 +111,16 @@ public class TestItems {
      * @param tcList
      * @throws Exception
      */
-    public void testEgiftItem(WebDriver driver, Properties prop, Properties locator, User user,
+    public void testEgiftItem(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             Map<String, Boolean> map, List<TestCase> tcList) throws Exception {
 
 
         logger.info("BEGIN testEgiftItem");
-        String FUNCTIONALITY = "Verify items section of summary for egift";
-        testCase = new TestCase("TC-17.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_EIT";
+//        String FUNCTIONALITY = "Verify items section of summary for egift";
+//        testCase = new TestCase("TC-17.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = new WebDriverWait(driver, 10);
         int itemsInCart = getTestHelper().getItemCountInCart(user);
 
@@ -157,7 +162,7 @@ public class TestItems {
             getTestHelper().logAssertion(getClass().getSimpleName(), priceString, priceElement.getText());
         }
 
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testEgiftItem");
     }

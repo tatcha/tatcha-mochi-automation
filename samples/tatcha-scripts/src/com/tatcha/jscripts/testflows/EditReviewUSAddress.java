@@ -23,6 +23,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.bag.TestAddToCart;
 import com.tatcha.jscripts.commons.ReportGenerator;
 import com.tatcha.jscripts.dao.TestCase;
@@ -36,7 +37,7 @@ import com.tatcha.jscripts.review.ReviewOrder;
 import com.tatcha.utils.BrowserDriver;
 
 /**
- * Flow : Add to cart - Login in Checkout page - Order Review(With US address) -
+ * Flow 14 : Add to cart - Login in Checkout page - Order Review(With US address) -
  * Place order
  * 
  * @author Reshma
@@ -58,6 +59,7 @@ public class EditReviewUSAddress {
     private TestCase testCase;
     private List<TestCase> tcList = new ArrayList<TestCase>();
     private final String MODULE = "Flow-14 : EditReviewUSAddress";
+    private final String FLOW_ID = "FLOW_14";
 
     @Before
     public void setUp() throws Exception {
@@ -87,9 +89,10 @@ public class EditReviewUSAddress {
     @Test
     public void testEditReviewUSAddress() throws Exception {
 
-        String FUNCTIONALITY = "Edit Payment and Shipping from Order Review";
-        testCase = new TestCase("Flow-14", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+//        String FUNCTIONALITY = "Edit Payment and Shipping from Order Review";
+//        testCase = new TestCase("Flow-14", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+    	final String FUN_ID = "FUN_14";
+    	testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy_HH:mm:ss");
         String timeStamp = sdf.format(Calendar.getInstance().getTime());
         logger.info(getClass() + timeStamp);
@@ -111,7 +114,7 @@ public class EditReviewUSAddress {
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
 
         try {
-            addToCart.addSpecificProductToCart(driver, prop, locator, user, tcList);
+            addToCart.addSpecificProductToCart(FLOW_ID, driver, prop, locator, user, tcList);
 
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h2.panel-title")));
             wait.until(ExpectedConditions
@@ -125,15 +128,15 @@ public class EditReviewUSAddress {
             actions.perform();
 
             // Login as a registered user at the checkout
-            testLogin.checkoutLogin(driver, data, user, tcList);
+            testLogin.checkoutLogin(FLOW_ID, driver, data, user, tcList);
 
             // Verify Review Order for express checkout
-            reviewOrder.verifyReviewOrder4(driver, prop, locator, user, map, tcList);
+            reviewOrder.verifyReviewOrder4(FLOW_ID, driver, prop, locator, user, map, tcList);
 
             TestOrderConfirmation testConf = new TestOrderConfirmation();
-            testConf.verifyOrderConfirmation(driver, prop, locator, user, tcList);
+            testConf.verifyOrderConfirmation(FLOW_ID, driver, prop, locator, user, tcList);
 
-            testCase.setStatus("PASS");
+            testCase.setStatus(TcConstants.PASS);
             tcList.add(testCase);
         } catch (Exception exp) {
             try {

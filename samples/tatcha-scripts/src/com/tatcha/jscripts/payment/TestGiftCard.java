@@ -12,6 +12,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.dao.TestCase;
 import com.tatcha.jscripts.dao.User;
 import com.tatcha.jscripts.helper.TatchaTestHelper;
@@ -39,13 +40,15 @@ public class TestGiftCard {
      * @param checkBalance
      * @throws Exception
      */
-    public void testAddGiftCard(WebDriver driver, Properties prop, Properties locator, User user, boolean checkBalance,
+    public void testAddGiftCard(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user, boolean checkBalance,
             List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN testAddGiftCard");
-        String FUNCTIONALITY = "Add a gift card";
-        testCase = new TestCase("TC-8.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_AGCD";
+//        String FUNCTIONALITY = "Add a gift card";
+//        testCase = new TestCase("TC-8.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         Actions actions = new Actions(driver);
         By paymentTitleLocator = By.xpath(locator.getProperty("checkout.step2.title").toString());
         String giftCardNo = prop.getProperty("checkout.giftCard").toString();
@@ -107,7 +110,7 @@ public class TestGiftCard {
         getTestHelper().logAssertion(getClass().getSimpleName(), applyCardButtonElement.isEnabled());
 
         if (checkBalance) {
-            testCheckGiftCardBalance(driver, prop, locator, user, tcList);
+            testCheckGiftCardBalance(FLOW_ID, driver, prop, locator, user, tcList);
         }
 
         // Apply Gc
@@ -116,7 +119,7 @@ public class TestGiftCard {
                 .findElement(By.xpath(locator.getProperty("giftCard.modalBox.apply.button").toString()));
         applyCardButtonElement.click();
 
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);	
         tcList.add(testCase);
         logger.info("END testAddGiftCard");
     }
@@ -131,13 +134,15 @@ public class TestGiftCard {
      * @param tcList
      * @throws Exception
      */
-    public void testCheckGiftCardBalance(WebDriver driver, Properties prop, Properties locator, User user,
+    public void testCheckGiftCardBalance(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN testCheckGiftCardBalance");
-        String FUNCTIONALITY = "Check gift card balance";
-        testCase = new TestCase("TC-8.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_CGCB";
+//        String FUNCTIONALITY = "Check gift card balance";
+//        testCase = new TestCase("TC-8.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
         String giftCardNo = prop.getProperty("checkout.giftCard").toString();
 
@@ -151,7 +156,7 @@ public class TestGiftCard {
         getTestHelper().logAssertion(getClass().getSimpleName(),
                 driver.findElement(balanceInfoLocator).isDisplayed());
 
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testCheckGiftCardBalance");
     }
@@ -166,14 +171,16 @@ public class TestGiftCard {
      * @param tcList
      * @throws Exception
      */
-    public void testRemoveGiftCard(WebDriver driver, Properties prop, Properties locator, User user,
+    public void testRemoveGiftCard(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             List<TestCase> tcList) throws Exception {
 
 
         logger.info("BEGIN testRemoveGiftCard");
-        String FUNCTIONALITY = "Remove gift card";
-        testCase = new TestCase("TC-8.3", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_RGCD";
+//        String FUNCTIONALITY = "Remove gift card";
+//        testCase = new TestCase("TC-8.3", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        		
         By paymentTitleLocator = By.xpath(locator.getProperty("checkout.step2.title").toString());
 
         WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, 10);
@@ -183,7 +190,7 @@ public class TestGiftCard {
         undoLinkElement.click();
         wait.until(ExpectedConditions.refreshed(ExpectedConditions.invisibilityOf(undoLinkElement)));
 
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testRemoveGiftCard");
     }

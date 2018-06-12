@@ -20,6 +20,7 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.commons.ReportGenerator;
 import com.tatcha.jscripts.commons.TestMethods;
 import com.tatcha.jscripts.dao.TestCase;
@@ -123,7 +124,7 @@ public class TestHeader extends AbstractWebDriverScriptTestCase {
 		testCase.setFunctionality(FUNCTIONALITY);
 		testCase.setMocNo("MOC-33");
 
-		String STATUS = "FAIL";
+		String STATUS = TcConstants.FAIL;
 		String REMARKS = "";
 		StringBuilder REMARKS_STRING = new StringBuilder();
 		boolean FLAG1 = false;
@@ -213,25 +214,25 @@ public class TestHeader extends AbstractWebDriverScriptTestCase {
 			}
 
 			if (FLAG1 || FLAG2 || FLAG3)
-				STATUS = "PASS";
+				STATUS = TcConstants.PASS;	
 			else
-				STATUS = "FAIL";
+				STATUS = TcConstants.FAIL;
 
 		} catch (NoSuchElementException ne) {
 			logger.error("BANNER : ELEMENT NOT FOUND " + ne.toString());
-			STATUS = "FAIL";
+			STATUS = TcConstants.FAIL;
 		} catch (ElementNotVisibleException nv) {
 			logger.error("BANNER : ELEMENT NOT VISIBLE " + nv.toString());
-			STATUS = "FAIL";
+			STATUS = TcConstants.FAIL;
 		} catch (TimeoutException te) {
 			logger.error("BANNER : TIMEOUT " + te.toString());
-			STATUS = "FAIL";
+			STATUS = TcConstants.FAIL;
 		} catch (StaleElementReferenceException elementHasDisappeared) {
 			logger.error("BANNER : STALE ELE REF " + elementHasDisappeared.toString());
-			STATUS = "FAIL";
+			STATUS = TcConstants.FAIL;
 		} catch (WebDriverException we) {
 			logger.error("BANNER : WEBDRIVER ISSUE " + we.toString());
-			STATUS = "FAIL";
+			STATUS = TcConstants.FAIL;
 		}
 
 		testCase.setStatus(STATUS);
@@ -256,7 +257,7 @@ public class TestHeader extends AbstractWebDriverScriptTestCase {
 		testCase.setFunctionality(FUNCTIONALITY);
 		testCase.setMocNo("MOC-33");
 
-		String STATUS = "FAIL";
+		String STATUS = TcConstants.FAIL;
 		String REMARKS = "";
 		StringBuilder REMARKS_STRING = new StringBuilder();
 
@@ -337,24 +338,24 @@ public class TestHeader extends AbstractWebDriverScriptTestCase {
 			driver.navigate().back();
 
 			if (FLAG1 && FLAG2 && FLAG3)
-				STATUS = "PASS";
+				STATUS = TcConstants.PASS;
 			else
-				STATUS = "FAIL";
+				STATUS = TcConstants.FAIL;
 		} catch (NoSuchElementException ne) {
 			logger.error("LOGO : ELEMENT NOT FOUND " + ne.toString());
-			STATUS = "FAIL";
+			STATUS = TcConstants.FAIL;
 		} catch (ElementNotVisibleException nv) {
 			logger.error("LOGO : ELEMENT NOT VISIBLE " + nv.toString());
-			STATUS = "FAIL";
+			STATUS = TcConstants.FAIL;
 		} catch (TimeoutException te) {
 			logger.error("LOGO : TIMEOUT " + te.toString());
-			STATUS = "FAIL";
+			STATUS = TcConstants.FAIL;
 		} catch (StaleElementReferenceException elementHasDisappeared) {
 			logger.error("LOGO : STALE ELE REF " + elementHasDisappeared.toString());
-			STATUS = "FAIL";
+			STATUS = TcConstants.FAIL;
 		} catch (WebDriverException we) {
 			logger.error("LOGO : WEBDRIVER ISSUE " + we.toString());
-			STATUS = "FAIL";
+			STATUS = TcConstants.FAIL;
 		}
 
 		testCase.setStatus(STATUS);
@@ -390,7 +391,7 @@ public class TestHeader extends AbstractWebDriverScriptTestCase {
 			testCase.setTestNo("TC-" + TESTNO++);
 			testCase.setMocNo("MOC-33");
 
-			String STATUS = "FAIL";
+			String STATUS = TcConstants.FAIL;
 			String REMARKS = "";
 			StringBuilder REMARKS_STRING = new StringBuilder();
 
@@ -497,9 +498,9 @@ public class TestHeader extends AbstractWebDriverScriptTestCase {
 				driver2.navigate().back();
 			}
 			if (FLAG1 && FLAG2 && FLAG3)
-				STATUS = "PASS";
+				STATUS = TcConstants.PASS;
 			else
-				STATUS = "FAIL";
+				STATUS = TcConstants.FAIL;
 
 			testCase.setStatus(STATUS);
 			testCase.setRemarks(REMARKS);

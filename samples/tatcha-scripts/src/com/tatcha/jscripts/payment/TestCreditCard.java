@@ -11,6 +11,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.dao.TestCase;
 import com.tatcha.jscripts.dao.User;
 import com.tatcha.jscripts.helper.TatchaTestHelper;
@@ -38,13 +39,15 @@ public class TestCreditCard {
      * @param tcList
      * @throws Exception
      */
-    public void testAddFirstCreditCard(WebDriver driver, Properties prop, Properties locator, User user,
+    public void testAddFirstCreditCard(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN testAddFirstCreditCard");
-        String FUNCTIONALITY = "Add first credit card";
-        testCase = new TestCase("TC-7.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_AFCC";
+//        String FUNCTIONALITY = "Add first credit card";
+//        testCase = new TestCase("TC-7.1", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         WebDriverWait wait = new WebDriverWait(driver, 10);
         By creditCardTitleLocator = By.xpath(locator.getProperty("creditCard.title").toString());
         // By cardNameLabelLocator =
@@ -78,7 +81,7 @@ public class TestCreditCard {
 
         // Braintree do not allow access of credit card fields, hence add
         // gift card
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testAddFirstCreditCard");
     }
@@ -94,12 +97,14 @@ public class TestCreditCard {
      * @param tcList
      * @throws Exception
      */
-    public void testAddCreditCard(WebDriver driver, Properties prop, Properties locator, User user,
+    public void testAddCreditCard(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN testAddCreditCard");
-        String FUNCTIONALITY = "Add a credit card to the list of credit cards";
-        testCase = new TestCase("TC-7.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        final String FUN_ID = "FUN_ACC";
+//        String FUNCTIONALITY = "Add a credit card to the list of credit cards";
+//        testCase = new TestCase("TC-7.2", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
 
         Actions actions = new Actions(driver);
         WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -126,7 +131,7 @@ public class TestCreditCard {
         actions.moveToElement(cancelButtonElement).click(cancelButtonElement);
         actions.perform();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(addCreditCardModalTitleLocator));
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testAddCreditCard");
     }
@@ -141,13 +146,15 @@ public class TestCreditCard {
      * @param tcList
      * @throws Exception
      */
-    public void testSelectCreditCard(WebDriver driver, Properties prop, Properties locator, User user,
+    public void testSelectCreditCard(String FLOW_ID, WebDriver driver, Properties prop, Properties locator, User user,
             List<TestCase> tcList) throws Exception {
 
         logger.info("BEGIN testSelectCreditCard");
-        String FUNCTIONALITY = "Select a credit card from list of credit cards";
-        testCase = new TestCase("TC-7.3", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
-
+        final String FUN_ID = "FUN_SCC";
+//        String FUNCTIONALITY = "Select a credit card from list of credit cards";
+//        testCase = new TestCase("TC-7.3", "MOC-NIL", FUNCTIONALITY, "FAIL", "");
+        testCase = TestCase.getFunctionalityTestCase(FLOW_ID, FUN_ID);
+        
         Actions actions = new Actions(driver);
 
         // If credit card already present in payment option, select it
@@ -162,7 +169,7 @@ public class TestCreditCard {
             actions.moveToElement(creditCardListElement.get(0)).click(creditCardListElement.get(0));
         }
         actions.build().perform();
-        testCase.setStatus("PASS");
+        testCase.setStatus(TcConstants.PASS);
         tcList.add(testCase);
         logger.info("END testSelectCreditCard");
     }
