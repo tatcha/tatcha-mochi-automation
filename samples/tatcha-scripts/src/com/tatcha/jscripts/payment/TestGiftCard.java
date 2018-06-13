@@ -12,6 +12,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.tatcha.jscripts.TatchaConstants;
 import com.tatcha.jscripts.TcConstants;
 import com.tatcha.jscripts.dao.TestCase;
 import com.tatcha.jscripts.dao.User;
@@ -90,7 +91,9 @@ public class TestGiftCard {
         WebElement cardTextareaElement = driver
                 .findElement(By.xpath(locator.getProperty("giftCard.modalBox.textarea").toString()));
         cardTextareaElement.clear();
-        cardTextareaElement.sendKeys("VSOMPKVSIIHCKOLS");
+//        cardTextareaElement.sendKeys("VSOMPKVSIIHCKOLS");
+        cardTextareaElement.sendKeys(TatchaConstants.GIFT_CARD);
+        
 
         try {
             wait.until(ExpectedConditions.attributeContains(
@@ -98,7 +101,8 @@ public class TestGiftCard {
                     "value", giftCardNo));
         } catch (TimeoutException te) {
             cardTextareaElement.clear();
-            cardTextareaElement.sendKeys("VSOMPKVSIIHCKOLS");
+//            cardTextareaElement.sendKeys("VSOMPKVSIIHCKOLS");
+            cardTextareaElement.sendKeys(TatchaConstants.GIFT_CARD);
         }
 
         checkBalanceButtonElement = driver

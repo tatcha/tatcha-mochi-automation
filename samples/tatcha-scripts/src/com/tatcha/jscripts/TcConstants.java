@@ -191,7 +191,7 @@ public final class TcConstants {
 	public static String FLOW_10_FUN = "Checkout as a guest with international address and gift card";
 
 	// FLOW_11 GuestCheckoutUSAddressRegister
-	// FUN_10 testGuestCheckoutUSAddressRegister
+	// FUN_11 testGuestCheckoutUSAddressRegister
 	public static String FLOW_11_TC = "TC-11";
 	public static String FLOW_11_MOC = "MOC-11";
 	public static String FLOW_11_FUN = "Checkout as guest with US address and register in order review page";
@@ -437,5 +437,7 @@ public final class TcConstants {
 	public static String FUN_EIT = "Verify items section of summary for egift";
 
 	// doubt this method has no pass condition: verifyShoppingBag
+
+	
 
 }

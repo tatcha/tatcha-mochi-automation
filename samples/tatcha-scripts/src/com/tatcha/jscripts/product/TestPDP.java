@@ -354,20 +354,26 @@ public class TestPDP extends AbstractWebDriverScriptTestCase {
 
 		try {
 			String SPLITTER = "-";
-			String productPrice = tmethods.getWE(driver, "product.price").getText();
-			if (productPrice.contains(SPLITTER)) { // $15.00 - $45.00
-				String[] lowhighPrices = productPrice.split(SPLITTER);
-				String lowPrice = lowhighPrices[0].trim();
-				String highPrice = lowhighPrices[1].trim();
-				product.setHighPrice(highPrice.trim());
-				product.setLowPrice(lowPrice.trim());
-			} else {
-				// String productPrice =
-				// driver.findElement(By.xpath("//*[@id='product-content']/div[2]/div/div[1]/span")).getText();
-				product.setPrice(productPrice);
-				STATUS = TcConstants.PASS;
+			WebElement webEleProductPrice = tmethods.getWE(driver, locator, "product.price");
+			String productPrice = webEleProductPrice.getText();
+			if (null != productPrice && !productPrice.isEmpty()) {
+				if (productPrice.contains(SPLITTER)) { // $15.00 - $45.00
+					String[] lowhighPrices = productPrice.split(SPLITTER);
+					String lowPrice = lowhighPrices[0].trim();
+					String highPrice = lowhighPrices[1].trim();
+					product.setHighPrice(highPrice.trim());
+					product.setLowPrice(lowPrice.trim());
+				} else {
+					// String productPrice =
+					// driver.findElement(By.xpath("//*[@id='product-content']/div[2]/div/div[1]/span")).getText();
+					product.setPrice(productPrice);
+					STATUS = TcConstants.PASS;
+				}
+			}else{
+				STATUS = TcConstants.FAIL;
+				REMARKS = "Product Price is Empty ";
 			}
-		} catch (NoSuchElementException ne) {
+		} catch (NoSuchElementException | NullPointerException ne) {
 			STATUS = TcConstants.FAIL;
 			REMARKS = "Product Price Not Found ";
 			logger.error(REMARKS + ne.toString());
