@@ -57,7 +57,7 @@
 
 					<includes>
 						<!-- TSCRIPT_FILE_NAME -->
-						<include>com/tatcha/jscripts/$FLOW_NAME.java</include>
+						<include>com/tatcha/jscripts/$TSCRIPT_FILE_NAME.java</include>
 					</includes>
 					<systemPropertyVariables>
 						<!-- Relocate the XLT results directory under target. -->
