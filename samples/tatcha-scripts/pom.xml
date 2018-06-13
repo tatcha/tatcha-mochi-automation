@@ -57,16 +57,17 @@
 
 					<includes>
 						<!-- TSCRIPT_FILE_NAME -->
-						<include>com/tatcha/jscripts/$TSCRIPT_FILE_NAME.java</include>
+						<include>com/tatcha/jscripts/${TSCRIPT_FILE_NAME}.java</include>
 					</includes>
 					<systemPropertyVariables>
 						<!-- Relocate the XLT results directory under target. -->
 						<com.xceptance.xlt.result-dir>${project.build.directory}/xlt-results</com.xceptance.xlt.result-dir>
 						<!-- Customly Added Properties set via Jenkins Choice Parameters -->
-						<test.type>$TEST_TYPE</test.type>
-						<work.env>$WORK_ENV</work.env>
-						<work.module>$MODULE_NAME</work.module>
-						<product.name>$PRODUCT_NAME</product.name>
+						<jscript.name>${TSCRIPT_FILE_NAME}</jscript.name>
+						<test.type>${TEST_TYPE}</test.type>
+						<work.env>${WORK_ENV}</work.env>
+						<work.module>${MODULE_NAME}</work.module>
+						<product.name>${PRODUCT_NAME}</product.name>
 
 						<!-- TEST_TYPE: load.xlt browser.chrome -->
 						<!-- WORK_ENV: DEV_SEC DEMO STAGE LIVE -->
