@@ -459,13 +459,6 @@ public class TestMethods {
 				System.setProperty("work.env", "DEV_SEC");
 			}
 
-			/** Only used for Unit Testing */
-			 if (null == System.getProperty("work.module") && null == System.getProperty("product.name")) {
-				 // Setting default Module as SHOPALL
-//				 System.setProperty("work.module", "SHOPALL");
-				 // Setting default Product as SILKCANVAS
-				 System.setProperty("product.name", "INDIGO");
-			 }
 		}
 
 		/** Setting System properties for JUnit Execution */
